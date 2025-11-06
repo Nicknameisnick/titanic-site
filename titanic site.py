@@ -306,46 +306,75 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab2:
         st.header("De data")
 
-        # Survival count
-        st.subheader("Hoeveel mensen hebben het overleefd?")
-        survival_counts = df_cleaned['Survived'].value_counts().reset_index()
-        survival_counts.columns = ['Status', 'Aantal']
-        survival_counts['Status'] = survival_counts['Status'].map({0: 'Niet overleefd', 1: 'Overleefd'})
-        fig_survival = px.bar(survival_counts, x='Status', y='Aantal', title='Totaal aantal overlevenden')
+        # Survival count in percentage
+        st.subheader("Hoeveel procent van de mensen heeft het overleefd?")
+        survival_perc = df_cleaned['Survived'].value_counts(normalize=True).mul(100).rename('Percentage').reset_index()
+        survival_perc['Status'] = survival_perc['Survived'].map({0: 'Niet overleefd', 1: 'Overleefd'})
+        
+        fig_survival = px.bar(
+            survival_perc, 
+            x='Status', 
+            y='Percentage', 
+            title='Totaal percentage overlevenden',
+            text=survival_perc['Percentage'].apply(lambda x: f'{x:.1f}%'),
+            color='Status',
+            color_discrete_map={'Overleefd': 'lightgreen', 'Niet overleefd': 'lightcoral'}
+        )
+        fig_survival.update_layout(showlegend=False)
         st.plotly_chart(fig_survival, use_container_width=True)
 
-        # Survival by gender
+        # Survival by gender with percentages on bars
         st.subheader("Hoeveel mensen hebben het overleefd per geslacht?")
         survival_gender = df_cleaned.groupby(['Sex', 'Survived']).size().reset_index(name='Aantal')
+        # Bereken percentage binnen elke geslachtsgroep
+        survival_gender['Percentage'] = survival_gender['Aantal'] / survival_gender.groupby('Sex')['Aantal'].transform('sum') * 100
         survival_gender['Survived'] = survival_gender['Survived'].map({0: 'Niet overleefd', 1: 'Overleefd'})
         survival_gender['Sex'] = survival_gender['Sex'].map({'male': 'Man', 'female': 'Vrouw'})
-        fig_gender = px.bar(survival_gender, x='Sex', y='Aantal', color='Survived', barmode='group', title='Overleving per geslacht')
+        
+        fig_gender = px.bar(
+            survival_gender, 
+            x='Sex', 
+            y='Aantal', 
+            color='Survived', 
+            barmode='group', 
+            title='Overleving per geslacht (met percentages)',
+            text=survival_gender['Percentage'].apply(lambda x: f'{x:.1f}%')
+        )
         st.plotly_chart(fig_gender, use_container_width=True)
 
-        # Survival by Pclass
+        # Survival by Pclass with percentages on bars
         st.subheader("Hoeveel mensen hebben het overleefd per Pclass?")
         survival_pclass = df_cleaned.groupby(['Pclass', 'Survived']).size().reset_index(name='Aantal')
+        # Bereken percentage binnen elke Pclass-groep
+        survival_pclass['Percentage'] = survival_pclass['Aantal'] / survival_pclass.groupby('Pclass')['Aantal'].transform('sum') * 100
         survival_pclass['Survived'] = survival_pclass['Survived'].map({0: 'Niet overleefd', 1: 'Overleefd'})
-        fig_pclass = px.bar(survival_pclass, x='Pclass', y='Aantal', color='Survived', barmode='group', title='Overleving per Pclass')
+        
+        fig_pclass = px.bar(
+            survival_pclass, 
+            x='Pclass', 
+            y='Aantal', 
+            color='Survived', 
+            barmode='group', 
+            title='Overleving per Pclass (met percentages)',
+            text=survival_pclass['Percentage'].apply(lambda x: f'{x:.1f}%')
+        )
         st.plotly_chart(fig_pclass, use_container_width=True)
 
-        # Age distribution
-        st.subheader("Distributie van leeftijd")
-        fig_age_dist = px.histogram(df_cleaned, x='Age', nbins=50, title='Distributie van leeftijd')
-        st.plotly_chart(fig_age_dist, use_container_width=True)
-
-        # KDE plots of age for survived and not survived
-        st.subheader("KDE plots van leeftijd voor overlevenden en niet-overlevenden")
-        fig_kde = go.Figure()
-        fig_kde.add_trace(go.Violin(x=df_cleaned['Survived'][df_cleaned['Survived']==1], y=df_cleaned['Age'][df_cleaned['Survived']==1],
-                                   legendgroup='Yes', scalegroup='Yes', name='Overleefd',
-                                   side='positive', line_color='blue'))
-        fig_kde.add_trace(go.Violin(x=df_cleaned['Survived'][df_cleaned['Survived']==0], y=df_cleaned['Age'][df_cleaned['Survived']==0],
-                                   legendgroup='No', scalegroup='No', name='Niet overleefd',
-                                   side='negative', line_color='orange'))
-        fig_kde.update_traces(meanline_visible=True)
-        fig_kde.update_layout(violingap=0, violinmode='overlay', title="Leeftijdsverdeling van overlevenden versus niet-overlevenden")
-        st.plotly_chart(fig_kde, use_container_width=True)
+        # Age distribution for survivors vs non-survivors (overlapping histograms)
+        st.subheader("Leeftijdsverdeling: Overlevenden vs. Niet-overlevenden")
+        # Map Survived to text labels for the legend
+        df_cleaned['Overlevingsstatus'] = df_cleaned['Survived'].map({1: 'Overleefd', 0: 'Niet overleefd'})
+        fig_age_overlay = px.histogram(
+            df_cleaned, 
+            x="Age", 
+            color="Overlevingsstatus",
+            barmode="overlay",
+            histnorm='probability density', # Toont dichtheid i.p.v. telling
+            opacity=0.7,
+            title="Leeftijdsverdeling van overlevenden en niet-overlevenden"
+        )
+        fig_age_overlay.update_layout(xaxis_title="Leeftijd", yaxis_title="Dichtheid")
+        st.plotly_chart(fig_age_overlay, use_container_width=True)
 
         # Influence of ticket price on survival
         st.subheader("Heeft de ticketprijs de overlevingskans beïnvloed?")
@@ -354,10 +383,16 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.plotly_chart(fig_fare_dist, use_container_width=True)
 
         st.write("Overlevingskans per prijscategorie")
-        df_cleaned['FareCategory'] = pd.qcut(df_cleaned['Fare'], 4, labels=['Laag', 'Gemiddeld', 'Hoog', 'Zeer hoog'])
-        fare_survival = df_cleaned.groupby('FareCategory')['Survived'].mean().reset_index()
-        fig_fare_survival = px.bar(fare_survival, x='FareCategory', y='Survived', title='Overlevingskans per prijscategorie')
-        st.plotly_chart(fig_fare_survival, use_container_width=True)
+        # OPGELOST: Gebruik rank(method='first') om unieke bin-randen te garanderen
+        try:
+            df_cleaned['FareCategory'] = pd.qcut(df_cleaned['Fare'].rank(method='first'), q=4, labels=['Laag', 'Gemiddeld', 'Hoog', 'Zeer hoog'])
+            fare_survival = df_cleaned.groupby('FareCategory')['Survived'].mean().reset_index()
+            fig_fare_survival = px.bar(fare_survival, x='FareCategory', y='Survived', title='Overlevingskans per prijscategorie')
+            fig_fare_survival.update_yaxes(title="Overlevingskans", tickformat=".0%")
+            st.plotly_chart(fig_fare_survival, use_container_width=True)
+        except Exception as e:
+            st.error(f"Kon de prijscategorieën niet maken: {e}")
+
 
         # Key observations plot
         st.subheader("Belangrijke observaties")
@@ -373,6 +408,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.subheader("Vergelijking van opstapplaats en overlevingskans")
         embarked_survival = df_cleaned.groupby('Embarked')['Survived'].mean().reset_index()
         fig_embarked_survival = px.bar(embarked_survival, x='Embarked', y='Survived', title='Overlevingskans per opstapplaats')
+        fig_embarked_survival.update_yaxes(title="Overlevingskans", tickformat=".0%")
         st.plotly_chart(fig_embarked_survival, use_container_width=True)
 
         # High number of survivors from Cherbourg
@@ -392,6 +428,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
