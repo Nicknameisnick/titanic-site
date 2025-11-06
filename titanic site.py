@@ -137,6 +137,21 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.subheader("2. Kolommen verwijderen")
         st.write("Sommige kolommen zijn niet nuttig voor ons model ('Name', 'Ticket', 'PassengerId') of bevatten te veel missende waarden ('Cabin'). Deze verwijderen we.")
         
+    
+        st.code("""
+# Vul missende waarden in 'Age' en 'Fare' met de mediaan van die kolom
+df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        """, language='python')
+
+        # Voer de code uit om missende waarden op te vullen
+        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+
+        st.subheader("4. Resultaat na opschoning")
+        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', dit zijn maar twee waardes en we zetten deze op NaN.")
+          # Roep de functie aan om de plot te tonen
+        plot_missing_data(df_cleaned, "Heatmap van missende data")
         st.code("""
 # Kolommen die we willen verwijderen
 cols_to_drop = ['Ticket', 'Cabin', 'Name', 'PassengerId']
@@ -156,20 +171,6 @@ df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
         st.write("Voor de kolom `Age` vullen we de lege plekken op met de **mediaan**.")
         st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is. Het opvullen van missende waarden met de mediaan is een robuuste methode omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
         
-        st.code("""
-# Vul missende waarden in 'Age' en 'Fare' met de mediaan van die kolom
-df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
-df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        """, language='python')
-
-        # Voer de code uit om missende waarden op te vullen
-        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
-        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-
-        st.subheader("4. Resultaat na opschoning")
-        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', dit zijn maar twee waardes en we zetten deze op NaN.")
-          # Roep de functie aan om de plot te tonen
-        plot_missing_data(df_cleaned, "Heatmap van missende data")
 
     with tab2:
         st.header("De data")
@@ -264,6 +265,7 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
