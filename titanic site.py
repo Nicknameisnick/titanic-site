@@ -242,21 +242,21 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
         st.subheader("2. Missende numerieke waarden opvullen")
         st.write("Nu vullen we de lege plekken van de numerieke colommen op met de mediaan.")
+        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'cabin', die we later zullen aanpakken.")
         st.info("De mediaan is een robuuste keuze omdat deze niet beïnvloed wordt door de extreme uitschieters die we zojuist hebben behandeld.")
+       
         
         # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-    
-        
-                
-        st.subheader("3. Eindresultaat na opschoning")
-        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'cabin', die we later zullen aanpakken.")
+
+  
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
-     
+        labels = [f'{int(i/10)}-{int((i+1000)/10)}' for i in bins[:-1]]
+        
 
         # --- NIEUWE SECTIE VOOR LEEFTIJD ---
-        st.subheader("4. Onrealistische leeftijden corrigeren (Outliers)")
+        st.subheader("3. Onrealistische leeftijden corrigeren (Outliers)")
         st.write(
             "Volgens onderzoek was de oudste persoon aan boord van de Titanic 74 jaar oud ([bron](https://www.encyclopedia-titanica.org/titanic-oldest-on-board/)). "
             "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan.")
@@ -276,7 +276,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             st.plotly_chart(fig_age_after, use_container_width=True)
 
         # --- NIEUWE SECTIE VOOR TICKETPRIJS ---
-        st.subheader("5. Onrealistische ticketprijzen corrigeren (Outliers)")
+        st.subheader("4. Onrealistische ticketprijzen corrigeren (Outliers)")
         st.write(
             "De duurste ticketprijs was £870.0 voor een First Class Suite ([bron](https://www.cruisemummy.co.uk/titanic-ticket-prices/)). "
             "Waardes in de 'Fare'-kolom die significant hoger zijn, behandelen we als fouten en vervangen we door de mediaan."
@@ -287,7 +287,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         with col3:
             st.write("**Voor de correctie:**")
             fig_fare_before = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Origineel)')
-            st.plotly_chart(fig_fare_before, use_container_width=True)
+            st.plotly_chart(fig_fare_before, use_container_width=True, labels=labels)
             
         with col4:
             st.write("**Na de correctie:**")
@@ -297,13 +297,13 @@ elif pagina == "Titanic case verbetering (2e poging)":
             df_cleaned.loc[df_cleaned['Fare'] > 8700, 'Fare'] = fare_median
 
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
-            st.plotly_chart(fig_fare_after, use_container_width=True)
+            st.plotly_chart(fig_fare_after, use_container_width=True, , labels=labels)
 
 
         
         
 
-        st.subheader("6. Onnodige kolommen verwijderen")
+        st.subheader("5. Onnodige kolommen verwijderen")
         st.write("Kolommen zoals 'Name', 'Ticket', en 'PassengerId' zijn uniek voor elke passagier en hebben geen voorspellende waarde. 'Cabin' heeft te veel missende data. Deze verwijderen we.")
         
         # Voer de code uit
@@ -405,7 +405,6 @@ elif pagina == "Titanic case verbetering (2e poging)":
         max_fare = int(df_cleaned['Fare'].max())
         bins = np.arange(0, max_fare + 1000, 1000)
         # Labels zijn nu gedeeld door 10
-        labels = [f'{int(i/10)}-{int((i+1000)/10)}' for i in bins[:-1]]
         
         df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False, include_lowest=True)
 
@@ -571,6 +570,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
