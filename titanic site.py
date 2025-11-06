@@ -119,10 +119,10 @@ elif pagina == "Titanic case 1e poging":
     
     st.subheader("**Feedback op eerste poging:**")
     st.write("""
-    ###Punten:
-    -**ML-model:** Een ml model zou fijn geweest zijn.
-    -**Presentatie:** De presentatie mag iets langer.
-    -**Scatterplot:** Er moet een scatterplot in.
+    ### Punten:
+    - **ML-model:** Een ml model zou fijn geweest zijn.
+    - **Presentatie:** De presentatie mag iets langer.
+    - **Scatterplot:** Er moet een scatterplot in.
     """)
 
 
@@ -299,6 +299,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
