@@ -16,9 +16,32 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 import plotly.graph_objects as go
+import streamlit as st
 
-st.set_page_config(page_title="Titanic case verbetering 🚢", layout="wide")
-st.title("Titanic case verbetering 🚢")
+st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
 
-# Tabs aanmaken
-tab1, tab2, tab3 = st.tabs(["Titanic case verbetering intro🚢", "Titanic case 1e poging🚢", "Titanic case verbetering (2e poging)🚢"])
+st.sidebar.title("🚢 Titanic Navigatie")
+pagina = st.sidebar.radio(
+    "Kies een onderdeel:",
+    [
+        "Titanic case verbetering intro🚢",
+        "Titanic case 1e poging🚢",
+        "Titanic case verbetering (2e poging)🚢"
+    ]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
+
+if pagina == "Titanic case verbetering intro🚢":
+    st.title("Titanic case verbetering intro🚢")
+    st.write("")
+
+elif pagina == "Titanic case 1e poging🚢":
+    st.title("Titanic case 1e poging🚢")
+    st.write("")
+
+elif pagina == "Titanic case verbetering (2e poging)🚢":
+    st.title("Titanic case verbetering (2e poging)🚢")
+    st.write("")
+
