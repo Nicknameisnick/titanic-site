@@ -233,11 +233,11 @@ elif pagina == "Titanic case verbetering (2e poging)":
         # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        df_cleaned['Cabin'].fillna(df_cleaned['Cabin'].modus(), inplace=True)
+    
         
                 
         st.subheader("3. Eindresultaat na opschoning")
-        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
+        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'cabin', die we later zullen aanpakken.")
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
      
 
@@ -396,6 +396,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
