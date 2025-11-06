@@ -50,15 +50,11 @@ if pagina == "Titanic case intro":
     # Inleidingstekst
     st.subheader("📘 Inleiding")
     st.write("""
+    💡 *De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
+    op basis van kenmerken zoals geslacht, leeftijd en klasse.*
     In deze presentatie gaan wij toelichten hoe wij de **eerste versie** van de Titanic case hebben uitgevoerd  
     en hoe we deze daarna hebben verbeterd.  
     We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
-    """)
-    
-    # Klein accentblokje met emoji
-    st.info("""
-    💡 *De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
-    op basis van kenmerken zoals geslacht, leeftijd en klasse.*
     """)
     
     # (optioneel) afbeelding of logo
@@ -67,7 +63,7 @@ if pagina == "Titanic case intro":
     <div style="text-align:center;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg"
              alt="Titanic"
-             width="450">
+             width="550">
         <p style="font-size:14px; color:gray;">RMS Titanic (1912)</p>
     </div>
     """,
@@ -238,6 +234,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
