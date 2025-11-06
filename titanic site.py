@@ -113,6 +113,13 @@ elif pagina == "Titanic case 1e poging":
     - **Geen leeralgoritme:** het model leert niets uit de data.
     """)
 
+    st.subheader("**Feedback op eerste poging:**")
+    st.write("""
+
+
+
+    )
+
 
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
@@ -287,6 +294,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
