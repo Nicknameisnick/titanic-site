@@ -78,7 +78,7 @@ if pagina == "Titanic case intro":
         st.image(
             "https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg",
             caption="RMS Titanic (1912)",
-            width=450  # pas aan voor gewenste grootte
+            width=550  # pas aan voor gewenste grootte
         )
 
 
@@ -287,6 +287,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
