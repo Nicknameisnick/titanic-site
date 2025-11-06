@@ -87,7 +87,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     @st.cache_data
     def load_data():
         # Gebruik de standaard comma-separator, wat het meest gebruikelijk is voor .csv-bestanden.
-        df = pd.read_csv("train.csv")
+        df = pd.read_csv("train.csv", sep=';')
         return df
 
     df = load_data()
@@ -252,3 +252,4 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
