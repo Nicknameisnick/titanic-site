@@ -84,47 +84,47 @@ if pagina == "Titanic case intro":
 
     data = [
     {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
-    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Noon 12 Apr"},
-    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Noon 13 Apr"},
-    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Noon 14 Apr"},
+    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Noon 12 Apr"},
+    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Noon 13 Apr"},
+    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Noon 14 Apr"},
     {"step": 4, "lat": 41.7667, "lon": -50.2333, "event": "Crash ijsberg"}
     ]
     df = pd.DataFrame(data)
     
-    st.title("Titanic Journey Tracker")
+    st.title("🚢 Titanic Journey Tracker")
     
-    # slider
-    step = st.slider("Selecteer het punt van de reis", min_value=int(df.step.min()), max_value=int(df.step.max()), value=0, step=1)
+    # Maak slider + startknop
+    if "playing" not in st.session_state:
+        st.session_state.playing = False
+    if "step" not in st.session_state:
+        st.session_state.step = 0
     
-    # animatie knop
-    if st.button("Start animatie"):
-        for i in range(int(df.step.min()), int(df.step.max())+1):
-            st.session_state['animation_step'] = i
-            time.sleep(1)  # 1 seconde per stap
-            st.experimental_rerun()
+    col1, col2 = st.columns([4,1])
+    with col1:
+        step = st.slider("Selecteer het punt van de reis", 0, len(df)-1, st.session_state.step)
+    with col2:
+        if st.button("▶️ Start animatie"):
+            st.session_state.playing = True
     
-    if 'animation_step' in st.session_state:
-        step = st.session_state['animation_step']
-    
-    # kaart
+    # Toon kaart
     st.pydeck_chart(pdk.Deck(
         initial_view_state=pdk.ViewState(
-            latitude=df.loc[df.step==step, 'lat'].values[0],
-            longitude=df.loc[df.step==step, 'lon'].values[0],
+            latitude=df.loc[step, 'lat'],
+            longitude=df.loc[step, 'lon'],
             zoom=4,
             pitch=0,
         ),
         layers=[
             pdk.Layer(
                 "ScatterplotLayer",
-                data=df[df.step<=step],
+                data=df.iloc[:step+1],
                 get_position='[lon, lat]',
                 get_color='[200, 30, 0, 160]',
                 get_radius=200000,
             ),
             pdk.Layer(
                 "LineLayer",
-                data=df[df.step<=step],
+                data=df.iloc[:step+1],
                 get_source_position='[lon, lat]',
                 get_target_position='[lon, lat]',
                 get_color='[0, 0, 255]',
@@ -132,8 +132,15 @@ if pagina == "Titanic case intro":
             )
         ]
     ))
+    st.write(f"📍 **Huidige status:** {df.loc[step, 'event']}")
     
-    st.write(f"Huidige status: {df.loc[df.step==step, 'event'].values[0]}")
+    # Animatie zonder rerun-crash
+    if st.session_state.playing:
+        for i in range(st.session_state.step, len(df)):
+            st.session_state.step = i
+            st.experimental_set_query_params(step=i)
+            st.experimental_rerun()
+            time.sleep(1)
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
@@ -350,6 +357,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
