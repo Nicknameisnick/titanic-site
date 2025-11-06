@@ -36,7 +36,7 @@ st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
 if pagina == "Titanic case intro":
     st.title("Titanic case intro")
-    tab1, tab2, tab3, tab4 = st.tabs(["📘 Intro", "🧠 Methode", "📈 Resultaten", "💬 Conclusie"])
+    tab1, tab2 = st.tabs(["📘 Intro", "🧠 Methode"])
     
     with tab1:
         st.header("👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
@@ -204,6 +204,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
