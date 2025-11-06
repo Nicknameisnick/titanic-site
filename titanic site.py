@@ -121,11 +121,14 @@ elif pagina == "Titanic case verbetering (2e poging)":
     # Load data
     @st.cache_data
     def load_data():
-        df = pd.read_csv("train.csv", sep=";")
-
+        # Assuming the CSV is comma-separated as is standard. If it's truly semicolon, change back to sep=";".
+        df = pd.read_csv("train.csv")
         return df
 
     df = load_data()
+    
+    # Create a copy for the cleaning tab to not affect other tabs
+    df_cleaned = df.copy()
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "1. Data opschoning", 
@@ -137,10 +140,60 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
     with tab1:
         st.header("Data opschoning")
-        st.write("Per kolom wordt hier het aantal missende waardes weergegeven.")
-        missing_data = df.isnull().sum().reset_index()
+
+        st.subheader("1. Visualisatie van missende data")
+        st.write("Eerst kijken we met een histogram hoeveel data er per kolom ontbreekt.")
+        missing_data = df_cleaned.isnull().sum().reset_index()
         missing_data.columns = ['Kolom', 'Aantal missende waardes']
-        st.dataframe(missing_data, use_container_width=True)
+        missing_data_filtered = missing_data[missing_data['Aantal missende waardes'] > 0]
+        
+        fig_missing = px.bar(
+            missing_data_filtered,
+            x='Kolom',
+            y='Aantal missende waardes',
+            title='Aantal missende waardes per kolom'
+        )
+        st.plotly_chart(fig_missing, use_container_width=True)
+
+        st.subheader("2. Kolommen verwijderen")
+        st.write("Sommige kolommen zijn niet nuttig voor ons model of bevatten te veel missende waarden. We verwijderen 'Ticket', 'Cabin', 'Name', en 'PassengerId'.")
+        st.code("""
+# 'Cabin' heeft te veel missende waarden om bruikbaar te zijn.
+# 'Ticket', 'Name', en 'PassengerId' zijn unieke identifiers die geen voorspellende waarde hebben voor een machine learning model.
+df_cleaned.drop(['Ticket', 'Cabin', 'Name', 'PassengerId'], axis=1, inplace=True)
+        """, language='python')
+
+        # Execute the code
+        df_cleaned.drop(['Ticket', 'Cabin', 'Name', 'PassengerId'], axis=1, inplace=True)
+        st.write("Het dataframe nadat de kolommen zijn verwijderd:")
+        st.dataframe(df_cleaned.head(), use_container_width=True)
+
+        st.subheader("3. Missende numerieke waarden opvullen")
+        st.write("Voor de numerieke kolommen `Age`, `Fare`, `SibSp` en `Parch` vullen we eventuele lege plekken op met de **mediaan** van de betreffende kolom.")
+        st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is en daaruit bleek dat het opvullen van missende waarden met de mediaan een robuuste methode is, omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
+        
+        st.code("""
+# Vul missende waarden in 'Age' met de mediaan van 'Age'
+df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+
+# Doe hetzelfde voor Fare, SibSp, en Parch voor het geval er missende waarden zijn.
+df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+df_cleaned['SibSp'].fillna(df_cleaned['SibSp'].median(), inplace=True)
+df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
+        """, language='python')
+
+        # Execute the code to fill missing values
+        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        df_cleaned['SibSp'].fillna(df_cleaned['SibSp'].median(), inplace=True)
+        df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
+
+        st.subheader("4. Resultaat na opschoning")
+        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn.")
+        missing_data_after = df_cleaned.isnull().sum().reset_index()
+        missing_data_after.columns = ['Kolom', 'Aantal missende waardes']
+        st.dataframe(missing_data_after, use_container_width=True)
+        st.success("De missende waarden in de 'Age' kolom zijn succesvol opgevuld met de mediaan.")
 
     with tab2:
         st.header("De data")
@@ -235,29 +288,4 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
