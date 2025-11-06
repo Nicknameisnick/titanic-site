@@ -100,6 +100,8 @@ elif pagina == "Titanic case 1e poging":
     st.image("submission 1e poging.png")
     st.write("Het resultaat van de eerste poging kwam uit op 78,2% accuraatheid")
 
+    st.markdown("---")
+    
     st.subheader("**Discussie**")
     st.write("""
     ### ✅ Waarom dit goed is
@@ -113,6 +115,8 @@ elif pagina == "Titanic case 1e poging":
     - **Geen leeralgoritme:** het model leert niets uit de data.
     """)
 
+    st.markdown("---")
+    
     st.subheader("**Feedback op eerste poging:**")
     st.write("""
 
@@ -294,6 +298,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
