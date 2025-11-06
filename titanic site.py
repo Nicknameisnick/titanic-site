@@ -17,6 +17,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 import plotly.graph_objects as go
 import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
@@ -36,71 +38,33 @@ st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
 if pagina == "Titanic case intro":
     st.title("Titanic case intro")
-    # Teaminfo in een opvallend blok
-    st.markdown("""
-    ### 👥 **Team 1 — Matthijs de Wolff & Wessel IJskamp**
-    
-    Welkom bij onze presentatie over de Titanic case verbetering.  
-    """)
-    
-    # Visuele scheiding (horizontale lijn)
-    st.markdown("---")
-    
-    # Inleidingstekst
-    st.subheader("📘 Inleiding")
-    st.write("""
-    💡 De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
-    op basis van kenmerken zoals geslacht, leeftijd en klasse.
-    
-    In deze presentatie gaan wij toelichten hoe wij de **eerste versie** van de Titanic case hebben uitgevoerd  
-    en hoe we deze daarna hebben verbeterd.  
-    We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
-    """)
-    
-    st.markdown("---")
-  
-    st.markdown(
-    """
-    <div style="text-align:center;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg"
-             alt="Titanic"
-             width="550">
-        <p style="font-size:14px; color:gray;">RMS Titanic (1912)</p>
-    </div>
-    """,
-    unsafe_allow_html=True
+    st.markdown("### 👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
+
+    st.header("Inleiding")
+    st.write(
+        "In deze presentatie gaan wij toelichten hoe we de eerste keer de Titanic case "
+        "hebben uitgevoerd en hoe wij de case daarna hebben verbeterd."
     )
-    st.markdown("---")
-    # Extra visuele ruimte
-    st.markdown("")
-    
-    # Samenvattend blokje
-    st.success("""
-    ### 🎯 Doel van de case
-    Het doel van deze case is om inzicht te krijgen in:
-    - Hoe simpele regels al een sterke voorspelling kunnen geven  
-    - Hoe data-analyse kan helpen bij het verbeteren van modellen  
-    - Hoe machine learning hierbij een volgende stap vormt
-    """)
+
+    st.subheader("🔬 Methode")
+    st.write(
+        "In de eerste case gebruikten wij enkel een set van variabelen om een voorspelling te doen, "
+        "en in de verbeterpoging hebben wij een machine learning model gebruikt."
+    )
 
 
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
 
-    st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar kenmerken, er is hier geen gebruik gemaakt van een machine learning model")
+    st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar variabelen, er is hier geen gebruik gemaakt van een machine learning model")
 
-    st.subheader("**Kenmerken gebruikt voor de eerste poging**:")
-    st.code("""
-        train_pred = np.where(
-            (train['Sex'] == 'female') | ((train['Sex'] == 'male') & (train['Age'] < 10)),
-            1, 0
-        )
-        """)
+    st.subheader("**Variabelen gebruikt voor de eerste poging**:")
+    st.image("1e poging train set.png")
 
     st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
-    st.write("Het resultaat van de eerste poging kwam uit op 78,2% accuraatheid")
+    st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
 
     st.subheader("**Discussie**")
     st.write("""
@@ -122,13 +86,13 @@ elif pagina == "Titanic case verbetering (2e poging)":
     # Load data
     @st.cache_data
     def load_data():
-        # Assuming the CSV is comma-separated as is standard. If it's truly semicolon, change back to sep=";".
+        # Gebruik de standaard comma-separator, wat het meest gebruikelijk is voor .csv-bestanden.
         df = pd.read_csv("train.csv")
         return df
 
     df = load_data()
     
-    # Create a copy for the cleaning tab to not affect other tabs
+    # Maak een kopie voor de opschoning-tab om de originele data niet te beïnvloeden
     df_cleaned = df.copy()
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -142,59 +106,58 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab1:
         st.header("Data opschoning")
 
+        # Functie om de heatmap te plotten, gebaseerd op de afbeelding
+        def plot_missing_data(dataset, title):
+            fig, ax = plt.subplots(figsize=(10, 6))
+            plt.title(title)
+            # Gebruik een heatmap om de missende data visueel te maken
+            sns.heatmap(dataset.isnull(), cbar=False, yticklabels=False, cmap='viridis', ax=ax)
+            st.pyplot(fig)
+
         st.subheader("1. Visualisatie van missende data")
-        st.write("Eerst kijken we met een histogram hoeveel data er per kolom ontbreekt.")
-        missing_data = df_cleaned.isnull().sum().reset_index()
-        missing_data.columns = ['Kolom', 'Aantal missende waardes']
-        missing_data_filtered = missing_data[missing_data['Aantal missende waardes'] > 0]
+        st.write("Eerst gebruiken we een heatmap om visueel te maken waar de data ontbreekt. Gele lijnen geven missende waarden aan.")
         
-        fig_missing = px.bar(
-            missing_data_filtered,
-            x='Kolom',
-            y='Aantal missende waardes',
-            title='Aantal missende waardes per kolom'
-        )
-        st.plotly_chart(fig_missing, use_container_width=True)
+        # Roep de functie aan om de plot te tonen
+        plot_missing_data(df_cleaned, "Heatmap van missende data")
 
         st.subheader("2. Kolommen verwijderen")
-        st.write("Sommige kolommen zijn niet nuttig voor ons model of bevatten te veel missende waarden. We verwijderen 'Ticket', 'Cabin', 'Name', en 'PassengerId'.")
-        st.code("""
-# 'Cabin' heeft te veel missende waarden om bruikbaar te zijn.
-# 'Ticket', 'Name', en 'PassengerId' zijn unieke identifiers die geen voorspellende waarde hebben voor een machine learning model.
-df_cleaned.drop(['Ticket', 'Cabin', 'Name', 'PassengerId'], axis=1, inplace=True)
-        """, language='python')
-
-        # Execute the code
-        df_cleaned.drop(['Ticket', 'Cabin', 'Name', 'PassengerId'], axis=1, inplace=True)
-        st.write("Het dataframe nadat de kolommen zijn verwijderd:")
-        st.dataframe(df_cleaned.head(), use_container_width=True)
-
-        st.subheader("3. Missende numerieke waarden opvullen")
-        st.write("Voor de numerieke kolommen `Age`, `Fare`, `SibSp` en `Parch` vullen we eventuele lege plekken op met de **mediaan** van de betreffende kolom.")
-        st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is en daaruit bleek dat het opvullen van missende waarden met de mediaan een robuuste methode is, omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
+        st.write("Sommige kolommen zijn niet nuttig voor ons model ('Name', 'Ticket', 'PassengerId') of bevatten te veel missende waarden ('Cabin'). Deze verwijderen we.")
         
         st.code("""
-# Vul missende waarden in 'Age' met de mediaan van 'Age'
-df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+# Kolommen die we willen verwijderen
+cols_to_drop = ['Ticket', 'Cabin', 'Name', 'PassengerId']
 
-# Doe hetzelfde voor Fare, SibSp, en Parch voor het geval er missende waarden zijn.
-df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-df_cleaned['SibSp'].fillna(df_cleaned['SibSp'].median(), inplace=True)
-df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
+# Verwijder de kolommen alleen als ze bestaan in het dataframe
+df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
         """, language='python')
 
-        # Execute the code to fill missing values
+        # Voer de code uit
+        cols_to_drop = ['Ticket', 'Cabin', 'Name', 'PassengerId']
+        df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
+        
+        st.write("Het dataframe nadat de kolommen zijn verwijderd:")
+        st.dataframe(df_cleaned.head(), width='stretch')
+
+        st.subheader("3. Missende numerieke waarden opvullen")
+        st.write("Voor de kolom `Age` vullen we de lege plekken op met de **mediaan**.")
+        st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is. Het opvullen van missende waarden met de mediaan is een robuuste methode omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
+        
+        st.code("""
+# Vul missende waarden in 'Age' en 'Fare' met de mediaan van die kolom
+df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        """, language='python')
+
+        # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        df_cleaned['SibSp'].fillna(df_cleaned['SibSp'].median(), inplace=True)
-        df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
 
         st.subheader("4. Resultaat na opschoning")
-        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn.")
+        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
         missing_data_after = df_cleaned.isnull().sum().reset_index()
         missing_data_after.columns = ['Kolom', 'Aantal missende waardes']
-        st.dataframe(missing_data_after, use_container_width=True)
-        st.success("De missende waarden in de 'Age' kolom zijn succesvol opgevuld met de mediaan.")
+        st.dataframe(missing_data_after, width='stretch')
+        st.success("De missende waarden in de 'Age' en 'Fare' kolommen zijn succesvol opgevuld met de mediaan.")
 
     with tab2:
         st.header("De data")
@@ -289,7 +252,3 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
-
-
-
-
