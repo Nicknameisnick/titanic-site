@@ -466,9 +466,38 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.header("ML-model")
         st.write("De code van het model")
 
+        st.subheader("Data preprocessing functie")
+        st.code("""def clean(url):
+        data= pd.read_csv(url)
+        
+        ports = ["S", "C", "Q"]
+        rep = data["Embarked"].mode()[0]
+        for idx, embark in enumerate(data["Embarked"]):
+            if embark != embark:
+                data.loc[idx, "Embarked"] = rep
+                embark = rep
+            if embark in ports:
+                data.loc[idx, "Embarked"] = ports.index(embark)
+            else:
+                ports.append(embark)
+                data.loc[idx, "Embarked"] = ports.index(embark)
+        data["Embarked"] = data["Embarked"].astype("int")
+        
+        
+        for idx, gender in enumerate(data["Sex"]):
+            if gender == "female":
+                data.loc[idx, "Sex"] = 2
+            else:
+                data.loc[idx, "Sex"] = 1
+        data["Sex"] = data["Sex"].astype("int")
+    
+        
+        return data.drop("Name", axis=1).drop("Ticket", axis=1).drop("PassengerId", axis=1).drop("Cabin", axis=1)
+    """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
