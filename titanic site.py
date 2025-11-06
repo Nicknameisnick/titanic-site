@@ -17,7 +17,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 import plotly.graph_objects as go
 import streamlit as st
-
+import pydeck as pdk
+import time
 
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
 
@@ -81,7 +82,58 @@ if pagina == "Titanic case intro":
             width=550  # pas aan voor gewenste grootte
         )
 
-
+    data = [
+    {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
+    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Noon 12 Apr"},
+    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Noon 13 Apr"},
+    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Noon 14 Apr"},
+    {"step": 4, "lat": 41.7667, "lon": -50.2333, "event": "Crash ijsberg"}
+    ]
+    df = pd.DataFrame(data)
+    
+    st.title("Titanic Journey Tracker")
+    
+    # slider
+    step = st.slider("Selecteer het punt van de reis", min_value=int(df.step.min()), max_value=int(df.step.max()), value=0, step=1)
+    
+    # animatie knop
+    if st.button("Start animatie"):
+        for i in range(int(df.step.min()), int(df.step.max())+1):
+            st.session_state['animation_step'] = i
+            time.sleep(1)  # 1 seconde per stap
+            st.experimental_rerun()
+    
+    if 'animation_step' in st.session_state:
+        step = st.session_state['animation_step']
+    
+    # kaart
+    st.pydeck_chart(pdk.Deck(
+        initial_view_state=pdk.ViewState(
+            latitude=df.loc[df.step==step, 'lat'].values[0],
+            longitude=df.loc[df.step==step, 'lon'].values[0],
+            zoom=4,
+            pitch=0,
+        ),
+        layers=[
+            pdk.Layer(
+                "ScatterplotLayer",
+                data=df[df.step<=step],
+                get_position='[lon, lat]',
+                get_color='[200, 30, 0, 160]',
+                get_radius=200000,
+            ),
+            pdk.Layer(
+                "LineLayer",
+                data=df[df.step<=step],
+                get_source_position='[lon, lat]',
+                get_target_position='[lon, lat]',
+                get_color='[0, 0, 255]',
+                get_width=5,
+            )
+        ]
+    ))
+    
+    st.write(f"Huidige status: {df.loc[df.step==step, 'event'].values[0]}")
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
@@ -298,6 +350,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
