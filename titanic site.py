@@ -59,10 +59,15 @@ elif pagina == "Titanic case 1e poging":
     st.subheader("Variabelen gebruikt voor de eerste poging:")
     st.image("1e poging train set.png")
 
+    st.subheader("Resultaat")
+    st.image("submissie 1e poging.png")
+    st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
+
 
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
