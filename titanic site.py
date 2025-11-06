@@ -297,7 +297,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             df_cleaned.loc[df_cleaned['Fare'] > 8700, 'Fare'] = fare_median
 
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
-            st.plotly_chart(fig_fare_after, use_container_width=True, , labels=labels)
+            st.plotly_chart(fig_fare_after, use_container_width=True, labels=labels)
 
 
         
@@ -570,6 +570,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
