@@ -52,18 +52,18 @@ if pagina == "Titanic case intro":
 
 
 elif pagina == "Titanic case 1e poging":
-    st.title("Titanic case 1e poging")
+    st.title("**Titanic case 1e poging**")
 
     st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar variabelen, er is hier geen gebruik gemaakt van een machine learning model")
 
-    st.subheader("Variabelen gebruikt voor de eerste poging:")
+    st.subheader("**Variabelen gebruikt voor de eerste poging**:")
     st.image("1e poging train set.png")
 
-    st.subheader("Resultaat")
+    st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
     st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
 
-    st.subheader("***Discussie***")
+    st.subheader("**Discussie**")
     st.write("""
     ### ✅ Waarom dit goed is
     - **Eenvoudige logica, goed resultaat:** zonder machine learning al bijna 80%.
@@ -80,6 +80,7 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
