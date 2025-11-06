@@ -85,20 +85,23 @@ if pagina == "Titanic case intro":
     st.markdown("---")
     
     data = [
-    {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
-    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Middag 12 Apr"},
-    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Middag 13 Apr"},
-    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Middag 14 Apr"},
-    {"step": 4, "lat": 41.7667, "lon": -50.2333, "event": "Crash ijsberg"}
+        {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
+        {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Middag 12 Apr"},
+        {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Middag 13 Apr"},
+        {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Middag 14 Apr"},
+        {"step": 4, "lat": 41.7667, "lon": -50.2333, "event": "Crash ijsberg"}
     ]
     df = pd.DataFrame(data)
     
     st.title("🚢 Titanic Journey Tracker")
     
-    # Slider voor handmatige selectie
+    # Slider eerst
     step = st.slider("Selecteer het punt van de reis", 0, len(df)-1, 0)
     
-    # Placeholder voor de kaart
+    # Dan de animatie-knop
+    animate = st.button("▶️ Start animatie")
+    
+    # Placeholder voor kaart en status
     map_placeholder = st.empty()
     status_placeholder = st.empty()
     
@@ -130,14 +133,14 @@ if pagina == "Titanic case intro":
             ]
         ))
         status_placeholder.write(f"📍 **Huidige status:** {df.loc[current_step, 'event']}")
-    
-    # Knop voor animatie
-    if st.button("▶️ Start animatie"):
-        for i in range(len(df)):
-            draw_map(i)
-            time.sleep(1)
-    else:
-        draw_map(step)
+
+# Animatie logica
+if animate:
+    for i in range(len(df)):
+        draw_map(i)
+        time.sleep(1)
+else:
+    draw_map(step)
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
@@ -354,6 +357,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
