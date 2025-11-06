@@ -106,7 +106,6 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab1:
         st.header("Data opschoning")
 
-        # Functie om de heatmap te plotten, gebaseerd op de afbeelding
         def plot_missing_data(dataset, title):
             fig, ax = plt.subplots(figsize=(4, 6))
             plt.title(title)
@@ -250,5 +249,6 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
