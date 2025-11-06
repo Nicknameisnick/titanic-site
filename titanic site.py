@@ -215,7 +215,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         return df
 
     df = load_data()
-    df['Fare'] = df['Fare']/10
+    
     
     # Maak een kopie voor de opschoning-tab om de originele data niet te beïnvloeden
     df_cleaned = df.copy()
@@ -296,7 +296,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
             fare_median = df_cleaned['Fare'].median()
             # De bron is in ponden, de data waarschijnlijk in dollars, maar we gebruiken 870 als bovengrens.
             df_cleaned.loc[df_cleaned['Fare'] > 8700, 'Fare'] = fare_median
-
+            df_cleaned['Fare'] = df_cleaned['Fare'] / 10
+            
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
             st.plotly_chart(fig_fare_after, use_container_width=True)
 
@@ -572,4 +573,5 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
