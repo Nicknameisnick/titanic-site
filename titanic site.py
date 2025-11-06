@@ -58,7 +58,7 @@ if pagina == "Titanic case intro":
     We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
     """)
 
-    st.sidebar.markdown("---")
+    st.markdown("---")
     
     col1, col2 = st.columns([1.2, 1])  # verhouding: iets meer ruimte voor tekst (links)
 
@@ -287,6 +287,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
