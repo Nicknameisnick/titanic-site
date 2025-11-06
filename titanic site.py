@@ -172,6 +172,7 @@ elif pagina == "Titanic case 1e poging":
     
     Resultaat: je krijgt intuïtie, maar nog geen krachtige voorspeller.
     """)
+    st.markdown("---")
 
     st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
@@ -441,6 +442,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
