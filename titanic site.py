@@ -253,7 +253,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
   
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
-       
+        max_fare = int(df_cleaned['Fare'].max())
+        bins = np.arange(0, max_fare + 1000, 1000)
         
 
         # --- NIEUWE SECTIE VOOR LEEFTIJD ---
@@ -569,6 +570,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
