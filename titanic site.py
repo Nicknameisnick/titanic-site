@@ -103,7 +103,93 @@ elif pagina == "Titanic case verbetering (2e poging)":
         "5. Conclusies en eindscore"
     ])
 
-    First Class Suite
+     with tab1:
+        st.header("Data opschoning")
+
+        # Functie om de heatmap te plotten met Plotly
+        def plot_missing_data_heatmap(dataset, title):
+            fig = px.imshow(dataset.isnull(), title=title)
+            fig.update_layout(width=500, height=500, yaxis_title="Rij Index", xaxis_title="Kolom")
+            fig.update_coloraxes(showscale=False)
+            st.plotly_chart(fig, use_container_width=True)
+
+        st.subheader("1. Visualisatie van missende data")
+        st.write("We beginnen met een heatmap om te zien waar data ontbreekt.")
+        plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Origineel)")
+
+        # --- NIEUWE SECTIE VOOR LEEFTIJD ---
+        st.subheader("2. Onrealistische leeftijden corrigeren (Outliers)")
+        st.write(
+            "Volgens onderzoek was de oudste persoon aan boord van de Titanic 74 jaar oud ([bron](https://www.encyclopedia-titanica.org/titanic-oldest-on-board/)). "
+            "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan."
+        )
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.write("**Voor de correctie:**")
+            fig_age_before = px.box(df_cleaned, y='Age', title='Leeftijdsverdeling (Origineel)')
+            st.plotly_chart(fig_age_before, use_container_width=True)
+
+        with col2:
+            st.write("**Na de correctie:**")
+            # Voer de correctie uit
+            age_median = df_cleaned['Age'].median()
+            df_cleaned.loc[df_cleaned['Age'] > 74, 'Age'] = age_median
+            
+            fig_age_after = px.box(df_cleaned, y='Age', title='Leeftijdsverdeling (Gecorrigeerd)')
+            st.plotly_chart(fig_age_after, use_container_width=True)
+
+        # --- NIEUWE SECTIE VOOR TICKETPRIJS ---
+        st.subheader("3. Onrealistische ticketprijzen corrigeren (Outliers)")
+        st.write(
+            "De duurste ticketprijs was £870 voor een First Class Suite ([bron](https://www.cruisemummy.co.uk/titanic-ticket-prices/)). "
+            "Waardes in de 'Fare'-kolom die significant hoger zijn, behandelen we als fouten en vervangen we door de mediaan."
+        )
+
+        col3, col4 = st.columns(2)
+
+        with col3:
+            st.write("**Voor de correctie:**")
+            fig_fare_before = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Origineel)')
+            st.plotly_chart(fig_fare_before, use_container_width=True)
+            
+        with col4:
+            st.write("**Na de correctie:**")
+            # Voer de correctie uit
+            fare_median = df_cleaned['Fare'].median()
+            # De bron is in ponden, de data waarschijnlijk in dollars, maar we gebruiken 870 als bovengrens.
+            df_cleaned.loc[df_cleaned['Fare'] > 870, 'Fare'] = fare_median
+
+            fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
+            st.plotly_chart(fig_fare_after, use_container_width=True)
+
+
+        st.subheader("4. Missende numerieke waarden opvullen")
+        st.write("Nu vullen we de resterende lege plekken in de `Age` en `Fare` kolommen op met de mediaan.")
+        st.info("De mediaan is een robuuste keuze omdat deze niet beïnvloed wordt door de extreme uitschieters die we zojuist hebben behandeld.")
+        
+        # Voer de code uit om missende waarden op te vullen
+        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        st.success("Missende waarden in 'Age' en 'Fare' zijn opgevuld.")
+        
+
+        st.subheader("5. Onnodige kolommen verwijderen")
+        st.write("Kolommen zoals 'Name', 'Ticket', en 'PassengerId' zijn uniek voor elke passagier en hebben geen voorspellende waarde. 'Cabin' heeft te veel missende data. Deze verwijderen we.")
+        
+        # Voer de code uit
+        cols_to_drop = ['Ticket', 'Cabin', 'Name', 'PassengerId']
+        df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
+        st.write("Het dataframe na het verwijderen van kolommen:")
+        st.dataframe(df_cleaned.head())
+
+
+        st.subheader("6. Eindresultaat na opschoning")
+        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
+        plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
+
+
 
     with tab2:
         st.header("De data")
@@ -198,6 +284,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
