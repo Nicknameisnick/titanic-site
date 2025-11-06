@@ -93,54 +93,49 @@ if pagina == "Titanic case intro":
     
     st.title("🚢 Titanic Journey Tracker")
     
-    # Maak slider + startknop
-    if "playing" not in st.session_state:
-        st.session_state.playing = False
-    if "step" not in st.session_state:
-        st.session_state.step = 0
+    # Slider voor handmatige selectie
+    step = st.slider("Selecteer het punt van de reis", 0, len(df)-1, 0)
     
-    col1, col2 = st.columns([4,1])
-    with col1:
-        step = st.slider("Selecteer het punt van de reis", 0, len(df)-1, st.session_state.step)
-    with col2:
-        if st.button("▶️ Start animatie"):
-            st.session_state.playing = True
+    # Placeholder voor de kaart
+    map_placeholder = st.empty()
+    status_placeholder = st.empty()
     
-    # Toon kaart
-    st.pydeck_chart(pdk.Deck(
-        initial_view_state=pdk.ViewState(
-            latitude=df.loc[step, 'lat'],
-            longitude=df.loc[step, 'lon'],
-            zoom=4,
-            pitch=0,
-        ),
-        layers=[
-            pdk.Layer(
-                "ScatterplotLayer",
-                data=df.iloc[:step+1],
-                get_position='[lon, lat]',
-                get_color='[200, 30, 0, 160]',
-                get_radius=200000,
+    # Functie om kaart te tekenen
+    def draw_map(current_step):
+        map_placeholder.pydeck_chart(pdk.Deck(
+            initial_view_state=pdk.ViewState(
+                latitude=df.loc[current_step, 'lat'],
+                longitude=df.loc[current_step, 'lon'],
+                zoom=4,
+                pitch=0,
             ),
-            pdk.Layer(
-                "LineLayer",
-                data=df.iloc[:step+1],
-                get_source_position='[lon, lat]',
-                get_target_position='[lon, lat]',
-                get_color='[0, 0, 255]',
-                get_width=5,
-            )
-        ]
-    ))
-    st.write(f"📍 **Huidige status:** {df.loc[step, 'event']}")
+            layers=[
+                pdk.Layer(
+                    "ScatterplotLayer",
+                    data=df.iloc[:current_step+1],
+                    get_position='[lon, lat]',
+                    get_color='[200, 30, 0, 160]',
+                    get_radius=200000,
+                ),
+                pdk.Layer(
+                    "LineLayer",
+                    data=df.iloc[:current_step+1],
+                    get_source_position='[lon, lat]',
+                    get_target_position='[lon, lat]',
+                    get_color='[0, 0, 255]',
+                    get_width=5,
+                )
+            ]
+        ))
+        status_placeholder.write(f"📍 **Huidige status:** {df.loc[current_step, 'event']}")
     
-    # Animatie zonder rerun-crash
-    if st.session_state.playing:
-        for i in range(st.session_state.step, len(df)):
-            st.session_state.step = i
-            st.experimental_set_query_params(step=i)
-            st.experimental_rerun()
+    # Knop voor animatie
+    if st.button("▶️ Start animatie"):
+        for i in range(len(df)):
+            draw_map(i)
             time.sleep(1)
+    else:
+        draw_map(step)
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
@@ -357,6 +352,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
