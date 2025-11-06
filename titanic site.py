@@ -526,12 +526,34 @@ grid_search.fit(x, y)
         """)
         st.write("""
         - GridSearchCV zoekt automatisch de beste hyperparameters op basis van cross-validation.
-        - scoring='accuracy' = optimaliseren op nauwkeurigheid
+        - Scoring='accuracy' = optimaliseren op nauwkeurigheid
+        """)
+        st.markdown("---")
+        st.header("Beste model opslaan, Feature importance plot")
+        st.code("""
+best_rf = grid_search.best_estimator_
+
+feature_importances = best_rf.feature_importances_
+features = x.columns
+
+importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances})
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+plt.figure(figsize=(10,6))
+plt.barh(importance_df['Feature'], importance_df['Importance'])
+plt.gca().invert_yaxis()
+plt.title("Random Forest Feature Importance (Tuned Model)")
+plt.show()
+        """)
+        st.write("""
+        - Het model dat de hoogste cross-validation score haalt wordt opgeslagen.
+        - Laat zien welke features het belangrijkst zijn voor het model
         """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
