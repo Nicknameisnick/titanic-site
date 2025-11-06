@@ -509,10 +509,29 @@ param_grid = {
         - x = alle andere kolommen die het model kan gebruiken
         - Definieert instellingen van Random Forest die we willen testen
         """)
+        st.code("""
+        rf_model = RandomForestClassifier()
+
+        grid_search = GridSearchCV(
+            estimator=rf_model,
+            param_grid=param_grid,
+            cv=5,              # 5-fold cross-validation
+            n_jobs=-1,         # gebruik alle cores
+            verbose=1,
+            scoring='accuracy' 
+        )
+        
+        grid_search.fit(x, y)
+        """)
+        st.write("""
+        - GridSearchCV zoekt automatisch de beste hyperparameters op basis van cross-validation.
+        - scoring='accuracy' = optimaliseren op nauwkeurigheid
+        """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
