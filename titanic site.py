@@ -87,9 +87,9 @@ if pagina == "Titanic case intro":
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
 
-    st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar variabelen, er is hier geen gebruik gemaakt van een machine learning model")
+    st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar kenmerken, er is hier geen gebruik gemaakt van een machine learning model")
 
-    st.subheader("**Variabelen gebruikt voor de eerste poging**:")
+    st.subheader("**Kenmerken gebruikt voor de eerste poging**:")
     st.code("""
         train_pred = np.where(
             (train['Sex'] == 'female') | ((train['Sex'] == 'male') & (train['Age'] < 10)),
@@ -99,7 +99,7 @@ elif pagina == "Titanic case 1e poging":
 
     st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
-    st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
+    st.write("Het resultaat van de eerste poging kwam uit op 78,2% accuraatheid")
 
     st.subheader("**Discussie**")
     st.write("""
@@ -288,4 +288,5 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
