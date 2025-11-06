@@ -222,7 +222,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     tab1, tab2, tab3, tab4 = st.tabs([
         "1. Data opschoning", 
         "2. De data", 
-        "3. Feature engineering",  
+        "3. ML-model",  
         "4. Conclusies en eindscore"
     ])
 
@@ -463,12 +463,13 @@ elif pagina == "Titanic case verbetering (2e poging)":
             "grotere aandeel 1e klas passagiers dat daar aan boord ging in vergelijking met de andere opstapplaatsen."
         )
     with tab3:
-        st.header("Feature engineering")
-        st.write("Informatie over feature engineering.")
+        st.header("ML model")
+        st.write("ML model")
 
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
