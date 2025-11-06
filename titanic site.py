@@ -58,29 +58,26 @@ if pagina == "Titanic case intro":
     We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
     """)
   
-    st.markdown(
-    """
-    <div style="text-align:center;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg"
-             alt="Titanic"
-             width="550">
-        <p style="font-size:14px; color:gray;">RMS Titanic (1912)</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-    )
-    st.markdown("---")
-    # Extra visuele ruimte
-    st.markdown("")
+    col1, col2 = st.columns([1.2, 1])  # verhouding: iets meer ruimte voor tekst (links)
+
+    # Linkerkolom — tekstblok
+    with col1:
+        st.success("""
+        ### 🎯 Doel van de case
+        Het doel van deze case is om inzicht te krijgen in:
+        
+        - Hoe simpele regels al een sterke voorspelling kunnen geven  
+        - Hoe data-analyse kan helpen bij het verbeteren van modellen  
+        - Hoe machine learning hierbij een volgende stap vormt
+        """)
     
-    # Samenvattend blokje
-    st.success("""
-    ### 🎯 Doel van de case
-    Het doel van deze case is om inzicht te krijgen in:
-    - Hoe simpele regels al een sterke voorspelling kunnen geven  
-    - Hoe data-analyse kan helpen bij het verbeteren van modellen  
-    - Hoe machine learning hierbij een volgende stap vormt
-    """)
+    # Rechterkolom — afbeelding
+    with col2:
+        st.image(
+            "https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg",
+            caption="RMS Titanic (1912)",
+            width=350  # pas aan voor gewenste grootte
+        )
 
 
 
@@ -288,6 +285,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
