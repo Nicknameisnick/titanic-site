@@ -549,7 +549,7 @@ plt.show()
         - Het model dat de hoogste cross-validation score haalt wordt opgeslagen.
         - Laat zien welke features het belangrijkst zijn voor het model
         """)
-        st.image("Figure_1.png", width=300)
+        st.image("Figure_1.png", width=500)
         st.markdown("---")
         st.header("Voorbereiding testdata en voorspellingen")
         st.code("""
@@ -571,6 +571,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
