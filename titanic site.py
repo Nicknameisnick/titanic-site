@@ -24,7 +24,7 @@ st.sidebar.title("🚢 Titanic Navigatie")
 pagina = st.sidebar.radio(
     "Kies een onderdeel:",
     [
-        "Titanic case verbetering",
+        "Titanic case intro",
         "Titanic case 1e poging",
         "Titanic case verbetering (2e poging)"
     ]
@@ -33,8 +33,8 @@ pagina = st.sidebar.radio(
 st.sidebar.markdown("---")
 st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
-if pagina == "Titanic case verbetering":
-    st.title("Titanic case verbetering")
+if pagina == "Titanic case intro":
+    st.title("Titanic case intro")
     st.write("")
 
 elif pagina == "Titanic case 1e poging":
@@ -44,6 +44,7 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
