@@ -233,7 +233,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        df_cleaned['Cabin'].fillna(df_cleaned['Cabin'].median(), inplace=True)
+        df_cleaned['Cabin'].fillna(df_cleaned['Cabin'].modus(), inplace=True)
         
                 
         st.subheader("3. Eindresultaat na opschoning")
@@ -396,6 +396,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
