@@ -40,8 +40,8 @@ if pagina == "Titanic case intro":
     st.markdown("""
     ### 👥 **Team 1 — Matthijs de Wolff & Wessel IJskamp**
     
-    Welkom bij onze presentatie over de Titanic case.  
-    In deze case onderzoeken wij hoe we stap voor stap de overlevingskans van passagiers hebben voorspeld.
+    Welkom bij onze presentatie over de Titanic case verbetering.  
+    In deze presentatie vertellen wij hoe wij de Titanic case de eerste keer hebben uitgevoerd en hoe wij de uitvoering hebben verbeterd bij een tweede poging.
     """)
     
     # Visuele scheiding (horizontale lijn)
@@ -288,5 +288,6 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
