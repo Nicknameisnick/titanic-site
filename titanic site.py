@@ -484,15 +484,31 @@ elif pagina == "Titanic case verbetering (2e poging)":
     
         
         return data.drop("Name", axis=1).drop("Ticket", axis=1).drop("PassengerId", axis=1).drop("Cabin", axis=1)
-    """)
+        """)
         st.write("""
         - De data word ingelezen
         - De kolommen Embarked en Sex worden numeriek gemaakt voor het model
         - De irrelevante kolommen worden verwijderd
         """)
+        st.code("""
+        data = clean("train.csv")
+
+        y = data["Survived"]         # target
+        x = data.drop("Survived", axis=1)  # features
+        param_grid = {
+            'n_estimators': [300],
+            'max_depth': [None],
+            'min_samples_split': [5],
+            'min_samples_leaf': [2],
+            'max_features': [None],
+            'random_state': [4]
+        }
+        """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+        st.image("submission 2e poging.png")
+
 
 
 
