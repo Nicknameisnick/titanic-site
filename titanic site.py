@@ -60,7 +60,7 @@ if pagina == "Titanic case intro":
 
     st.markdown("---")
     
-    col1, col2 = st.columns([1.2, 1])  # verhouding: iets meer ruimte voor tekst (links)
+    col1, col2 = st.columns([1, 1])  # verhouding: iets meer ruimte voor tekst (links)
 
     # Linkerkolom — tekstblok
     with col1:
@@ -287,6 +287,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
