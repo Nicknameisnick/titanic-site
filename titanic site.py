@@ -288,6 +288,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         with col3:
             st.write("**Voor de correctie:**")
             fig_fare_before = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Origineel)')
+            fig_fare_before.update_yaxes(title_text='Ticket prijs in engelse ponden')
             st.plotly_chart(fig_fare_before, use_container_width=True)
             
         with col4:
@@ -299,6 +300,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             df_cleaned['Fare'] = df_cleaned['Fare'] / 10
             
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
+            fig_fare_after.update_yaxes(title_text='Ticket prijs in engelse ponden')
             st.plotly_chart(fig_fare_after, use_container_width=True)
 
 
@@ -401,12 +403,13 @@ elif pagina == "Titanic case verbetering (2e poging)":
         
         st.write("Verdeling van de ticketprijzen")
         fig_fare_dist = px.histogram(df_cleaned, x='Fare', nbins=50, title='Distributie van ticketprijzen')
+        fig_fare_dist.update_xaxes(title_text='Ticket prijs in engelse ponden')
         st.plotly_chart(fig_fare_dist, use_container_width=True)
 
         st.write("Overlevingskans per prijscategorie en geslacht")
         max_fare = int(df_cleaned['Fare'].max())
-        bins = np.arange(0, max_fare + 1000, 1000)
-        labels = [f'{i}-{i+1000}' for i in bins[:-1]]
+        bins = np.arange(0, max_fare + 100, 100)
+        labels = [f'{i}-{i+100}' for i in bins[:-1]]
         # Labels zijn nu gedeeld door 10
         
         df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False, include_lowest=True)
@@ -419,7 +422,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             barmode='group', title='Overlevingskans per Prijscategorie en Geslacht'
         )
         fig_fare_gender.update_yaxes(title="Overlevingskans", tickformat=".0%")
-        fig_fare_gender.update_xaxes(title="Ticketprijs (bedragen / 10)")
+        fig_fare_gender.update_xaxes(title="Ticket prijs in engelse ponden")
         st.plotly_chart(fig_fare_gender, use_container_width=True)
 
         # NIEUW: Scatterplot van Fare vs Age
@@ -434,7 +437,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             y="Age",
             color="Overlevingsstatus",
             title="Relatie tussen Leeftijd en Ticketprijs",
-            labels={"Fare": "Ticketprijs", "Age": "Leeftijd"},
+            labels={"Fare":'Ticket prijs in engelse ponden'), "Age": "Leeftijd"},
             color_discrete_map=color_map
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
@@ -573,5 +576,6 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
