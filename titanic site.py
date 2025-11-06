@@ -265,7 +265,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         # --- NIEUWE SECTIE VOOR TICKETPRIJS ---
         st.subheader("5. Onrealistische ticketprijzen corrigeren (Outliers)")
         st.write(
-            "De duurste ticketprijs was £870 voor een First Class Suite ([bron](https://www.cruisemummy.co.uk/titanic-ticket-prices/)). "
+            "De duurste ticketprijs was £870.0 voor een First Class Suite ([bron](https://www.cruisemummy.co.uk/titanic-ticket-prices/)). "
             "Waardes in de 'Fare'-kolom die significant hoger zijn, behandelen we als fouten en vervangen we door de mediaan."
         )
 
@@ -281,7 +281,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             # Voer de correctie uit
             fare_median = df_cleaned['Fare'].median()
             # De bron is in ponden, de data waarschijnlijk in dollars, maar we gebruiken 870 als bovengrens.
-            df_cleaned.loc[df_cleaned['Fare'] > 870, 'Fare'] = fare_median
+            df_cleaned.loc[df_cleaned['Fare'] > 8700, 'Fare'] = fare_median
 
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
             st.plotly_chart(fig_fare_after, use_container_width=True)
@@ -397,6 +397,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
