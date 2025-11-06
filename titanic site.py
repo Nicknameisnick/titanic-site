@@ -246,7 +246,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.write(
             "Volgens onderzoek was de oudste persoon aan boord van de Titanic 74 jaar oud ([bron](https://www.encyclopedia-titanica.org/titanic-oldest-on-board/)). "
             "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan.")
-           col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
         with col1:
             st.write("**Voor de correctie:**")
             fig_age_before = px.box(df_cleaned, y='Age', title='Leeftijdsverdeling (Origineel)')
@@ -396,6 +396,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
