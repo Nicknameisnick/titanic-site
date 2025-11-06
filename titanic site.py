@@ -50,32 +50,6 @@ if pagina == "Titanic case intro":
         om een voorspelling te doen.  
         In de tweede poging hebben we een **machine learning model** toegepast.
         """)
-        st.code("""
-        train_pred = np.where(
-            (train['Sex'] == 'female') | ((train['Sex'] == 'male') & (train['Age'] < 10)),
-            1, 0
-        )
-        """)
-    
-    with tab3:
-        st.subheader("📊 Resultaten")
-        st.metric(label="Eerste poging", value="78,2%")
-        st.metric(label="Verbeterde poging (ML)", value="81,0%")
-        st.write("Onze machine learning-aanpak gaf een lichte verbetering in nauwkeurigheid.")
-    
-    with tab4:
-        st.subheader("💬 Conclusie")
-        st.write("""
-        - De **eerste poging** bevestigde dat simpele regels al goed werken.
-        - De **machine learning-aanpak** bracht nuance en iets betere prestaties.
-        - Verdere verbetering kan door betere data-cleaning en feature engineering.
-        """)
-    
-        st.subheader("🔬 Methode")
-        st.write(
-            "In de eerste case gebruikten wij enkel een set van variabelen om een voorspelling te doen, "
-            "en in de verbeterpoging hebben wij een machine learning model gebruikt."
-        )
 
 
 
@@ -85,7 +59,12 @@ elif pagina == "Titanic case 1e poging":
     st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar variabelen, er is hier geen gebruik gemaakt van een machine learning model")
 
     st.subheader("**Variabelen gebruikt voor de eerste poging**:")
-    st.image("1e poging train set.png")
+    st.code("""
+        train_pred = np.where(
+            (train['Sex'] == 'female') | ((train['Sex'] == 'male') & (train['Age'] < 10)),
+            1, 0
+        )
+        """)
 
     st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
@@ -225,6 +204,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
