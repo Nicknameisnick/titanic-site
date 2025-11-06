@@ -36,20 +36,45 @@ st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
 if pagina == "Titanic case intro":
     st.title("Titanic case intro")
-    tab1, tab2 = st.tabs(["📘 Intro", "🧠 Methode"])
+    # Teaminfo in een opvallend blok
+    st.markdown("""
+    ### 👥 **Team 1 — Matthijs de Wolff & Wessel IJskamp**
     
-    with tab1:
-        st.header("👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
-        st.write("Welkom bij onze presentatie over de Titanic case!")
-        st.write("We bespreken hoe we stap voor stap de voorspellingen hebben verbeterd.")
+    Welkom bij onze presentatie over de Titanic case.  
+    In deze case onderzoeken wij hoe we stap voor stap de overlevingskans van passagiers hebben voorspeld.
+    """)
     
-    with tab2:
-        st.subheader("🧠 Methode")
-        st.write("""
-        In de eerste case gebruikten we enkel een set van variabelen (zoals **geslacht** en **leeftijd**)
-        om een voorspelling te doen.  
-        In de tweede poging hebben we een **machine learning model** toegepast.
-        """)
+    # Visuele scheiding (horizontale lijn)
+    st.markdown("---")
+    
+    # Inleidingstekst
+    st.subheader("📘 Inleiding")
+    st.write("""
+    In deze presentatie gaan wij toelichten hoe wij de **eerste versie** van de Titanic case hebben uitgevoerd  
+    en hoe we deze daarna hebben verbeterd.  
+    We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
+    """)
+    
+    # Klein accentblokje met emoji
+    st.info("""
+    💡 *De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
+    op basis van kenmerken zoals geslacht, leeftijd en klasse.*
+    """)
+    
+    # (optioneel) afbeelding of logo
+    st.image("https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg", caption="RMS Titanic (1912)", use_container_width=True)
+    
+    # Extra visuele ruimte
+    st.markdown("")
+    
+    # Samenvattend blokje
+    st.success("""
+    ### 🎯 Doel van de case
+    Het doel van deze case is om inzicht te krijgen in:
+    - Hoe simpele regels al een sterke voorspelling kunnen geven  
+    - Hoe data-analyse kan helpen bij het verbeteren van modellen  
+    - Hoe machine learning hierbij een volgende stap vormt
+    """)
 
 
 
@@ -204,6 +229,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
