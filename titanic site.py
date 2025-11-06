@@ -108,7 +108,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
         # Functie om de heatmap te plotten, gebaseerd op de afbeelding
         def plot_missing_data(dataset, title):
-            fig, ax = plt.subplots(figsize=(10, 6))
+            fig, ax = plt.subplots(figsize=(4, 6))
             plt.title(title)
             # Gebruik een heatmap om de missende data visueel te maken
             sns.heatmap(dataset.isnull(), cbar=False, yticklabels=False, cmap='viridis', ax=ax)
@@ -153,11 +153,9 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
 
         st.subheader("4. Resultaat na opschoning")
-        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
-        missing_data_after = df_cleaned.isnull().sum().reset_index()
-        missing_data_after.columns = ['Kolom', 'Aantal missende waardes']
-        st.dataframe(missing_data_after, width='stretch')
-        st.success("De missende waarden in de 'Age' en 'Fare' kolommen zijn succesvol opgevuld met de mediaan.")
+        st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', dit zijn maar twee waardes en we zetten deze op NaN.")
+          # Roep de functie aan om de plot te tonen
+        plot_missing_data(df_cleaned, "Heatmap van missende data")
 
     with tab2:
         st.header("De data")
@@ -252,4 +250,5 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
