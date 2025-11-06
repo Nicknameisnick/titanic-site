@@ -63,7 +63,7 @@ elif pagina == "Titanic case 1e poging":
     st.image("submission 1e poging.png")
     st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
 
-    st.subheader("Discussie")
+    st.subheader("***Discussie***")
     st.write("""
     ### ✅ Waarom dit goed is
     - **Eenvoudige logica, goed resultaat:** zonder machine learning al bijna 80%.
@@ -80,6 +80,7 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
