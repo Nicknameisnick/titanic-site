@@ -134,13 +134,13 @@ if pagina == "Titanic case intro":
         ))
         status_placeholder.write(f"📍 **Huidige status:** {df.loc[current_step, 'event']}")
 
-# Animatie logica
-if animate:
-    for i in range(len(df)):
-        draw_map(i)
-        time.sleep(1)
-else:
-    draw_map(step)
+    # Animatie logica
+    if animate:
+        for i in range(len(df)):
+            draw_map(i)
+            time.sleep(1)
+    else:
+        draw_map(step)
 
 elif pagina == "Titanic case 1e poging":
     st.title("**Titanic case 1e poging**")
@@ -357,6 +357,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
