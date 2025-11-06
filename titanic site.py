@@ -18,8 +18,6 @@ from sklearn.model_selection import GridSearchCV
 import plotly.graph_objects as go
 import streamlit as st
 
-train_df = pd.read_csv("train.csv", sep=";")
-test_df = pd.read_csv("test.csv", sep=",")
 
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
 
@@ -86,7 +84,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
     # Load data
     @st.cache_data
     def load_data():
-        df = pd.read_csv('train.csv')
+        df = pd.read_csv("train.csv", sep=";")
+
         return df
 
     df = load_data()
@@ -199,6 +198,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
