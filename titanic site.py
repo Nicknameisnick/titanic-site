@@ -84,9 +84,9 @@ if pagina == "Titanic case intro":
 
     data = [
     {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
-    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Noon 12 Apr"},
-    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Noon 13 Apr"},
-    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Noon 14 Apr"},
+    {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Middag 12 Apr"},
+    {"step": 2, "lat": 47.3667, "lon": -33.1667, "event": "Middag 13 Apr"},
+    {"step": 3, "lat": 43.0283, "lon": -44.5233, "event": "Middag 14 Apr"},
     {"step": 4, "lat": 41.7667, "lon": -50.2333, "event": "Crash ijsberg"}
     ]
     df = pd.DataFrame(data)
@@ -352,6 +352,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
