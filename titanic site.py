@@ -81,7 +81,9 @@ if pagina == "Titanic case intro":
             caption="RMS Titanic (1912)",
             width=550  # pas aan voor gewenste grootte
         )
-
+        
+    st.markdown("---")
+    
     data = [
     {"step": 0, "lat": 51.7167, "lon": -8.2667, "event": "Vertrek Queenstown"},
     {"step": 1, "lat": 50.1067, "lon": -20.7167, "event": "Middag 12 Apr"},
@@ -352,6 +354,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
