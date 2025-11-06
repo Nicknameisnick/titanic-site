@@ -205,12 +205,11 @@ elif pagina == "Titanic case verbetering (2e poging)":
     # Maak een kopie voor de opschoning-tab om de originele data niet te beïnvloeden
     df_cleaned = df.copy()
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4 = st.tabs([
         "1. Data opschoning", 
         "2. De data", 
-        "3. Feature engineering", 
-        "4. Algoritmes", 
-        "5. Conclusies en eindscore"
+        "3. Feature engineering",  
+        "4. Conclusies en eindscore"
     ])
 
     with tab1:
@@ -391,12 +390,11 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.write("Informatie over feature engineering.")
 
     with tab4:
-        st.header("Algoritmes")
-        st.write("Informatie over de gebruikte algoritmes.")
-
-    with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
+
+
 
 
 
