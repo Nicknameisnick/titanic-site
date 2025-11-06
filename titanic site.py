@@ -63,10 +63,15 @@ elif pagina == "Titanic case 1e poging":
     st.image("submission 1e poging.png")
     st.write("Het resultaat van de eerste poging kwam uit op 78,2%")
 
+    st.subheader("Discussie")
+    st.write("Positieve aspecten van dit resultaat:")
+    st.write("Negatieve aspecten van dit resultaat:")
+
 
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
