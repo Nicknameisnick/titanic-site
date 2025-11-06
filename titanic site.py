@@ -52,6 +52,7 @@ if pagina == "Titanic case intro":
     st.write("""
     💡 *De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
     op basis van kenmerken zoals geslacht, leeftijd en klasse.*
+    
     In deze presentatie gaan wij toelichten hoe wij de **eerste versie** van de Titanic case hebben uitgevoerd  
     en hoe we deze daarna hebben verbeterd.  
     We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
@@ -234,6 +235,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
