@@ -62,7 +62,7 @@ if pagina == "Titanic case intro":
     """)
     
     # (optioneel) afbeelding of logo
-    st.image("https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg", caption="RMS Titanic (1912)", use_container_width=True)
+    st.image("https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg", caption="RMS Titanic (1912)", use_container_width=True, width=400)
     
     # Extra visuele ruimte
     st.markdown("")
@@ -229,6 +229,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
