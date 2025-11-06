@@ -35,7 +35,20 @@ st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
 if pagina == "Titanic case intro":
     st.title("Titanic case intro")
-    st.write("")
+    st.markdown("### 👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
+
+    st.header("Inleiding")
+    st.write(
+        "In deze presentatie gaan wij toelichten hoe we de eerste keer de Titanic case "
+        "hebben uitgevoerd en hoe wij de case daarna hebben verbeterd."
+    )
+
+    st.subheader("🔬 Methode")
+    st.write(
+        "In de eerste case gebruikten wij enkel een set van variabelen om een voorspelling te doen, "
+        "en in de verbeterpoging hebben wij een machine learning model gebruikt."
+    )
+
 
 elif pagina == "Titanic case 1e poging":
     st.title("Titanic case 1e poging")
@@ -44,6 +57,7 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
