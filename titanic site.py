@@ -117,14 +117,26 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.write("We beginnen met een heatmap om te zien waar data ontbreekt.")
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Origineel)")
 
+        st.subheader("2. Missende numerieke waarden opvullen")
+        st.write("Nu vullen we de resterende lege plekken in de `Age`, `cabin` en `Fare` kolommen op met de mediaan.")
+        st.info("De mediaan is een robuuste keuze omdat deze niet beïnvloed wordt door de extreme uitschieters die we zojuist hebben behandeld.")
+        
+        # Voer de code uit om missende waarden op te vullen
+        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
+        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        st.success("Missende waarden in 'Age' en 'Fare' zijn opgevuld.")
+                )
+        st.subheader("3. Eindresultaat na opschoning")
+        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
+        plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
+        col1, col2 = st.columns(2)
+
         # --- NIEUWE SECTIE VOOR LEEFTIJD ---
-        st.subheader("2. Onrealistische leeftijden corrigeren (Outliers)")
+        st.subheader("4. Onrealistische leeftijden corrigeren (Outliers)")
         st.write(
             "Volgens onderzoek was de oudste persoon aan boord van de Titanic 74 jaar oud ([bron](https://www.encyclopedia-titanica.org/titanic-oldest-on-board/)). "
-            "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan."
-        )
-        
-        col1, col2 = st.columns(2)
+            "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan.")
+
         
         with col1:
             st.write("**Voor de correctie:**")
@@ -141,7 +153,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             st.plotly_chart(fig_age_after, use_container_width=True)
 
         # --- NIEUWE SECTIE VOOR TICKETPRIJS ---
-        st.subheader("3. Onrealistische ticketprijzen corrigeren (Outliers)")
+        st.subheader("5. Onrealistische ticketprijzen corrigeren (Outliers)")
         st.write(
             "De duurste ticketprijs was £870 voor een First Class Suite ([bron](https://www.cruisemummy.co.uk/titanic-ticket-prices/)). "
             "Waardes in de 'Fare'-kolom die significant hoger zijn, behandelen we als fouten en vervangen we door de mediaan."
@@ -165,17 +177,10 @@ elif pagina == "Titanic case verbetering (2e poging)":
             st.plotly_chart(fig_fare_after, use_container_width=True)
 
 
-        st.subheader("4. Missende numerieke waarden opvullen")
-        st.write("Nu vullen we de resterende lege plekken in de `Age` en `Fare` kolommen op met de mediaan.")
-        st.info("De mediaan is een robuuste keuze omdat deze niet beïnvloed wordt door de extreme uitschieters die we zojuist hebben behandeld.")
         
-        # Voer de code uit om missende waarden op te vullen
-        df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
-        df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        st.success("Missende waarden in 'Age' en 'Fare' zijn opgevuld.")
         
 
-        st.subheader("5. Onnodige kolommen verwijderen")
+        st.subheader("6. Onnodige kolommen verwijderen")
         st.write("Kolommen zoals 'Name', 'Ticket', en 'PassengerId' zijn uniek voor elke passagier en hebben geen voorspellende waarde. 'Cabin' heeft te veel missende data. Deze verwijderen we.")
         
         # Voer de code uit
@@ -185,9 +190,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.dataframe(df_cleaned.head())
 
 
-        st.subheader("6. Eindresultaat na opschoning")
-        st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
-        plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
+        
 
 
 
@@ -284,6 +287,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
