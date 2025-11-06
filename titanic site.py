@@ -54,8 +54,6 @@ if pagina == "Titanic case intro":
 elif pagina == "Titanic case 1e poging":
     st.title("Titanic case 1e poging")
 
-    
-    st.header("Eerste poging")
     st.write("In de eerste poging hebben wij een voorspelling gemaakt op basis van een paar variabelen, er is hier geen gebruik gemaakt van een machine learning model")
 
     st.subheader("Variabelen gebruikt voor de eerste poging:")
@@ -65,6 +63,7 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     st.write("")
+
 
 
 
