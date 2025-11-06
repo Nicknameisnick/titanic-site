@@ -124,20 +124,20 @@ elif pagina == "Titanic case verbetering (2e poging)":
         # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
-        st.success("Missende waarden in 'Age' en 'Fare' zijn opgevuld.")
+        df_cleaned['Cabin'].fillna(df_cleaned['Cabin'].median(), inplace=True)
+        
                 
         st.subheader("3. Eindresultaat na opschoning")
         st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
-        col1, col2 = st.columns(2)
+     
 
         # --- NIEUWE SECTIE VOOR LEEFTIJD ---
         st.subheader("4. Onrealistische leeftijden corrigeren (Outliers)")
         st.write(
             "Volgens onderzoek was de oudste persoon aan boord van de Titanic 74 jaar oud ([bron](https://www.encyclopedia-titanica.org/titanic-oldest-on-board/)). "
             "Leeftijden hoger dan 74 in de dataset beschouwen we als datafouten en vervangen we door de mediaan.")
-
-        
+           col1, col2 = st.columns(2)
         with col1:
             st.write("**Voor de correctie:**")
             fig_age_before = px.box(df_cleaned, y='Age', title='Leeftijdsverdeling (Origineel)')
@@ -287,6 +287,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
