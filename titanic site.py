@@ -463,12 +463,13 @@ elif pagina == "Titanic case verbetering (2e poging)":
             "grotere aandeel 1e klas passagiers dat daar aan boord ging in vergelijking met de andere opstapplaatsen."
         )
     with tab3:
-        st.header("ML model")
-        st.write("ML model")
+        st.header("ML-model")
+        st.write("De code van het model")
 
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
