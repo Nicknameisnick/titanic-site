@@ -159,6 +159,19 @@ elif pagina == "Titanic case 1e poging":
             1, 0
         )
         """)
+    st.write("""
+    Bij de eerste poging is EDA toegepast zonder ML, hier zitten echter een aantal beperkingen aan:
+    Interactie tussen features wordt moeilijk zichtbaar
+    - Bijvoorbeeld: Mannen in 1e klas hebben een hogere overlevingskans dan mannen in 3e klas.
+    - Eenvoudige grafieken of gemiddelden missen zulke combinaties.
+    Niet-lineaire patronen
+    - Overleving kan afhangen van een combinatie van leeftijd, klasse, en geslacht.
+    - EDA kan dit vaak niet goed vatten zonder uitgebreide, complexe plots.
+    Geen automatische gewichten
+    - EDA vertelt je “er lijkt een verband te zijn”, maar je weet niet hoe belangrijk elke feature is voor voorspellingen.
+    
+    Resultaat: je krijgt intuïtie, maar nog geen krachtige voorspeller.
+    """)
 
     st.subheader("**Resultaat**")
     st.image("submission 1e poging.png")
@@ -428,6 +441,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
