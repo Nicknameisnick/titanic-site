@@ -490,6 +490,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
         - De kolommen Embarked en Sex worden numeriek gemaakt voor het model
         - De irrelevante kolommen worden verwijderd
         """)
+        st.markdown("---")
+        st.header("Scheid features en target, hyperparameter grid voor Random Forest")
         st.code("""
 data = clean("train.csv")
 
@@ -531,6 +533,7 @@ grid_search.fit(x, y)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
