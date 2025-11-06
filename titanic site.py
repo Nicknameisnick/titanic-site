@@ -115,10 +115,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
             
             # Pas de layout aan met de gewenste stijl en afmetingen
             fig.update_layout(
-                width=800,
-                height=800,
-                plot_bgcolor='#1e222b',   # Achtergrondkleur van de plot
-                paper_bgcolor='#1e222b',  # Achtergrondkleur van de hele figuur
+                width=500,
+                height=500,
                 font=dict(color='white', size=16), # Standaard lettertype
                 xaxis=dict(tickfont=dict(color='white')),
                 yaxis=dict(showticklabels=False) # Verberg de y-as labels (rijnummers)
@@ -266,6 +264,7 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
