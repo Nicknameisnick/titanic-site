@@ -135,6 +135,14 @@ elif pagina == "Titanic case verbetering (2e poging)":
         plot_missing_data(df_cleaned, "Heatmap van missende data")
 
  
+        
+        
+        
+
+
+        st.subheader("2. Missende numerieke waarden opvullen")
+        st.write("Voor de kolom `Age` vullen we de lege plekken op met de **mediaan**.")
+        st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is. Het opvullen van missende waarden met de mediaan is een robuuste methode omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
         st.code("""
 # Vul missende waarden in 'Age' en 'Fare' met de mediaan van die kolom
 df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
@@ -147,14 +155,6 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
             # Voer de code uit
         cols_to_drop = ['Ticket', 'Cabin', 'Name', 'PassengerId']
         df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
-        
-        
-
-
-        st.subheader("2. Missende numerieke waarden opvullen")
-        st.write("Voor de kolom `Age` vullen we de lege plekken op met de **mediaan**.")
-        st.info("We hebben op internetbronnen onderzocht wat de beste aanpak is. Het opvullen van missende waarden met de mediaan is een robuuste methode omdat deze minder gevoelig is voor uitschieters (outliers) dan het gemiddelde.")
-        
         st.subheader("3. Resultaat na opschoning")
         st.write("Nadat we de missende waarden hebben opgevuld, controleren we opnieuw hoeveel er nog over zijn. De enige overgebleven missende waarden zitten in 'Embarked', dit zijn maar twee waardes en we zetten deze op NaN.")
           # Roep de functie aan om de plot te tonen
@@ -271,6 +271,7 @@ df_cleaned.drop(columns=cols_to_drop, inplace=True, errors='ignore')
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
