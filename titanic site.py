@@ -36,19 +36,46 @@ st.sidebar.info("Gebruik het menu om te navigeren tussen de onderdelen.")
 
 if pagina == "Titanic case intro":
     st.title("Titanic case intro")
-    st.markdown("### 👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
-
-    st.header("Inleiding")
-    st.write(
-        "In deze presentatie gaan wij toelichten hoe we de eerste keer de Titanic case "
-        "hebben uitgevoerd en hoe wij de case daarna hebben verbeterd."
-    )
-
-    st.subheader("🔬 Methode")
-    st.write(
-        "In de eerste case gebruikten wij enkel een set van variabelen om een voorspelling te doen, "
-        "en in de verbeterpoging hebben wij een machine learning model gebruikt."
-    )
+    tab1, tab2, tab3, tab4 = st.tabs(["📘 Intro", "🧠 Methode", "📈 Resultaten", "💬 Conclusie"])
+    
+    with tab1:
+        st.header("👥 Team 1 — Matthijs de Wolff & Wessel IJskamp")
+        st.write("Welkom bij onze presentatie over de Titanic case!")
+        st.write("We bespreken hoe we stap voor stap de voorspellingen hebben verbeterd.")
+    
+    with tab2:
+        st.subheader("🧠 Methode")
+        st.write("""
+        In de eerste case gebruikten we enkel een set van variabelen (zoals **geslacht** en **leeftijd**)
+        om een voorspelling te doen.  
+        In de tweede poging hebben we een **machine learning model** toegepast.
+        """)
+        st.code("""
+        train_pred = np.where(
+            (train['Sex'] == 'female') | ((train['Sex'] == 'male') & (train['Age'] < 10)),
+            1, 0
+        )
+        """)
+    
+    with tab3:
+        st.subheader("📊 Resultaten")
+        st.metric(label="Eerste poging", value="78,2%")
+        st.metric(label="Verbeterde poging (ML)", value="81,0%")
+        st.write("Onze machine learning-aanpak gaf een lichte verbetering in nauwkeurigheid.")
+    
+    with tab4:
+        st.subheader("💬 Conclusie")
+        st.write("""
+        - De **eerste poging** bevestigde dat simpele regels al goed werken.
+        - De **machine learning-aanpak** bracht nuance en iets betere prestaties.
+        - Verdere verbetering kan door betere data-cleaning en feature engineering.
+        """)
+    
+        st.subheader("🔬 Methode")
+        st.write(
+            "In de eerste case gebruikten wij enkel een set van variabelen om een voorspelling te doen, "
+            "en in de verbeterpoging hebben wij een machine learning model gebruikt."
+        )
 
 
 
@@ -198,6 +225,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
