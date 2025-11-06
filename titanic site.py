@@ -93,7 +93,7 @@ if pagina == "Titanic case intro":
     ]
     df = pd.DataFrame(data)
     
-    st.title("🚢 Titanic Journey Tracker")
+    st.title("🚢 Titanic Reis")
     
     # Slider eerst
     step = st.slider("Selecteer het punt van de reis", 0, len(df)-1, 0)
@@ -362,6 +362,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
