@@ -106,12 +106,29 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab1:
         st.header("Data opschoning")
 
+        # NIEUWE FUNCTIE: Gebruikt Plotly voor de heatmap, geïnspireerd op jouw voorbeeld.
         def plot_missing_data(dataset, title):
-            fig, ax = plt.subplots(figsize=(4, 6))
-            plt.title(title)
-            # Gebruik een heatmap om de missende data visueel te maken
-            sns.heatmap(dataset.isnull(), cbar=False, yticklabels=False, cmap='viridis', ax=ax)
-            st.pyplot(fig)
+            # Maak een heatmap met Plotly Express
+            fig = px.imshow(dataset.isnull(),
+                            labels=dict(x="Kolom", y="Rij Index", color="Is Missing"),
+                            title=title)
+            
+            # Pas de layout aan met de gewenste stijl en afmetingen
+            fig.update_layout(
+                width=800,
+                height=800,
+                plot_bgcolor='#1e222b',   # Achtergrondkleur van de plot
+                paper_bgcolor='#1e222b',  # Achtergrondkleur van de hele figuur
+                font=dict(color='white', size=16), # Standaard lettertype
+                xaxis=dict(tickfont=dict(color='white')),
+                yaxis=dict(showticklabels=False) # Verberg de y-as labels (rijnummers)
+            )
+            
+            # Verberg de kleurenschaal (de legende)
+            fig.update_coloraxes(showscale=False)
+
+            # Toon de figuur in Streamlit
+            st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("1. Visualisatie van missende data")
         st.write("Eerst gebruiken we een heatmap om visueel te maken waar de data ontbreekt. Gele lijnen geven missende waarden aan.")
@@ -249,6 +266,7 @@ df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
