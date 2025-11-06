@@ -17,8 +17,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 import plotly.graph_objects as go
 import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
+# Matplotlib en Seaborn zijn niet meer nodig
+# import matplotlib.pyplot as plt 
+# import seaborn as sns
 
 
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
@@ -83,16 +84,15 @@ elif pagina == "Titanic case 1e poging":
 elif pagina == "Titanic case verbetering (2e poging)":
     st.title("Titanic case verbetering (2e poging)")
     
-    # Load data
     @st.cache_data
     def load_data():
-        # Gebruik de standaard comma-separator, wat het meest gebruikelijk is voor .csv-bestanden.
-        df = pd.read_csv("train.csv", sep=';')
+        # Let op: De standaard Titanic dataset gebruikt een komma (,) als separator.
+        # Als jouw bestand echt een puntkomma (;) gebruikt, laat dan sep=';' staan.
+        df = pd.read_csv("train.csv")
         return df
 
     df = load_data()
     
-    # Maak een kopie voor de opschoning-tab om de originele data niet te beïnvloeden
     df_cleaned = df.copy()
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -103,7 +103,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         "5. Conclusies en eindscore"
     ])
 
-     with tab1:
+    with tab1:
         st.header("Data opschoning")
 
         # Functie om de heatmap te plotten met Plotly
@@ -188,7 +188,6 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.subheader("6. Eindresultaat na opschoning")
         st.write("Dit is de status van onze data na alle opschoningsstappen. De enige overgebleven missende waarden zitten in 'Embarked', die we later zullen aanpakken.")
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
-
 
 
     with tab2:
@@ -284,13 +283,3 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
-
-
-
-
-
-
-
-
-
-
