@@ -41,7 +41,6 @@ if pagina == "Titanic case intro":
     ### 👥 **Team 1 — Matthijs de Wolff & Wessel IJskamp**
     
     Welkom bij onze presentatie over de Titanic case verbetering.  
-    In deze presentatie vertellen wij hoe wij de Titanic case de eerste keer hebben uitgevoerd en hoe wij de uitvoering hebben verbeterd bij een tweede poging.
     """)
     
     # Visuele scheiding (horizontale lijn)
@@ -50,15 +49,16 @@ if pagina == "Titanic case intro":
     # Inleidingstekst
     st.subheader("📘 Inleiding")
     st.write("""
-    💡 *De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
-    op basis van kenmerken zoals geslacht, leeftijd en klasse.*
+    💡 De Titanic-case is een klassiek data science-project waarin we voorspellen wie de ramp overleefde, 
+    op basis van kenmerken zoals geslacht, leeftijd en klasse.
     
     In deze presentatie gaan wij toelichten hoe wij de **eerste versie** van de Titanic case hebben uitgevoerd  
     en hoe we deze daarna hebben verbeterd.  
     We laten zien welke keuzes we maakten bij het opstellen van voorspellingen en wat we daarvan hebben geleerd.
     """)
     
-    # (optioneel) afbeelding of logo
+    st.markdown("---")
+  
     st.markdown(
     """
     <div style="text-align:center;">
@@ -70,6 +70,7 @@ if pagina == "Titanic case intro":
     """,
     unsafe_allow_html=True
     )
+    st.markdown("---")
     # Extra visuele ruimte
     st.markdown("")
     
@@ -288,6 +289,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
