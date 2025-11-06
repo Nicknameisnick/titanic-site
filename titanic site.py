@@ -511,6 +511,8 @@ param_grid = {
         - x = alle andere kolommen die het model kan gebruiken
         - Definieert instellingen van Random Forest die we willen testen
         """)
+        st.markdown("---")
+        st.header("Random Forest met GridSearchCV")
         st.code("""
 rf_model = RandomForestClassifier()
 
@@ -533,6 +535,7 @@ grid_search.fit(x, y)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
