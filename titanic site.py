@@ -549,10 +549,29 @@ plt.show()
         - Het model dat de hoogste cross-validation score haalt wordt opgeslagen.
         - Laat zien welke features het belangrijkst zijn voor het model
         """)
+        st.image("Figure_1.png")
+        st.markdown("---")
+        st.header("Voorbereiding testdata en voorspellingen")
+        st.code("""
+compdata = clean("test.csv")
+comp_pred = best_rf.predict(compdata)
+
+submission = pd.DataFrame({
+    "PassengerId": np.arange(892, 1310, 1),
+    "Survived": comp_pred
+})
+submission.to_csv("Prediction Titanic.csv", index=False)
+        """)
+        st.write("""
+        - Preprocess testdata op dezelfde manier als train
+        - Maak voorspellingen
+        - Exporteer als CSV voor Kaggle/competitie
+        """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
