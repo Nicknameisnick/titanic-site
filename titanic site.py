@@ -67,7 +67,7 @@ if pagina == "Titanic case intro":
     <div style="text-align:center;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/RMS_Titanic_3.jpg"
              alt="Titanic"
-             width="350">
+             width="450">
         <p style="font-size:14px; color:gray;">RMS Titanic (1912)</p>
     </div>
     """,
@@ -238,6 +238,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
