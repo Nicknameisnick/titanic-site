@@ -502,12 +502,17 @@ param_grid = {
     'min_samples_leaf': [2],
     'max_features': [None],
     'random_state': [4]
-}
+}""")
+        st.write("""
+        - y = 0/1 labels voor overleving
+        - x = alle andere kolommen die het model kan gebruiken
+        - Definieert instellingen van Random Forest die we willen testen
         """)
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
