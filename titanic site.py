@@ -215,7 +215,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         return df
 
     df = load_data()
-    df['fare'] = df['fare']/10
+    df['Fare'] = df['Fare']/10
     
     # Maak een kopie voor de opschoning-tab om de originele data niet te beïnvloeden
     df_cleaned = df.copy()
@@ -572,3 +572,4 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
