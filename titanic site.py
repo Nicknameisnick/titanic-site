@@ -136,9 +136,14 @@ if pagina == "Titanic case intro":
 
     # Animatie logica
     if animate:
-        for i in range(len(df)):
+        n_steps = len(df)
+        extra_time = 2  # extra seconden totaal
+        sleep_time = 1 + extra_time / n_steps  # 1 sec standaard + verdeling van extra tijd
+    
+        for i in range(n_steps):
             draw_map(i)
-            time.sleep(1)
+            time.sleep(sleep_time)
+
     else:
         draw_map(step)
 
@@ -357,6 +362,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
