@@ -111,7 +111,7 @@ if pagina == "Titanic case intro":
             initial_view_state=pdk.ViewState(
                 latitude=df.loc[current_step, 'lat'],
                 longitude=df.loc[current_step, 'lon'],
-                zoom=3,
+                zoom=2,
                 pitch=0,
             ),
             layers=[
@@ -362,6 +362,7 @@ df_cleaned['Parch'].fillna(df_cleaned['Parch'].median(), inplace=True)
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
