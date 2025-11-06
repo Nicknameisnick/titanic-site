@@ -454,9 +454,6 @@ elif pagina == "Titanic case verbetering (2e poging)":
             "grotere aandeel 1e klas passagiers dat daar aan boord ging in vergelijking met de andere opstapplaatsen."
         )
     with tab3:
-        st.header("ML-model")
-        st.write("De code van het model")
-
         st.subheader("Data preprocessing functie")
         st.code("""def clean(url):
         data= pd.read_csv(url)
@@ -535,6 +532,7 @@ grid_search.fit(x, y)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
