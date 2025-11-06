@@ -241,7 +241,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Origineel)")
 
         st.subheader("2. Missende numerieke waarden opvullen")
-        st.write("Nu vullen we de resterende lege plekken in de `Age`, `cabin` en `Fare` kolommen op met de mediaan.")
+        st.write("Nu vullen we de lege plekken van de numerieke colommen op met de mediaan.")
         st.info("De mediaan is een robuuste keuze omdat deze niet beïnvloed wordt door de extreme uitschieters die we zojuist hebben behandeld.")
         
         # Voer de code uit om missende waarden op te vullen
@@ -319,6 +319,9 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
     with tab2:
         st.header("De data")
+        
+        # Definieer een consistente kleurenmap
+        color_map = {'Overleefd': 'green', 'Niet overleefd': 'red'}
 
         # Survival count in percentage
         st.subheader("Hoeveel procent van de mensen heeft het overleefd?")
@@ -332,11 +335,10 @@ elif pagina == "Titanic case verbetering (2e poging)":
             title='Totaal percentage overlevenden',
             text=survival_perc['Percentage'].apply(lambda x: f'{x:.1f}%'),
             color='Status',
-            color_discrete_map={'Overleefd': 'lightgreen', 'Niet overleefd': 'lightcoral'}
+            color_discrete_map=color_map
         )
         fig_survival.update_layout(showlegend=False)
-        # Maak de tekst groter
-        fig_survival.update_traces(textfont_size=16)
+        fig_survival.update_traces(textfont_size=20)
         st.plotly_chart(fig_survival, use_container_width=True)
 
         # Survival by gender with percentages on bars
@@ -353,10 +355,10 @@ elif pagina == "Titanic case verbetering (2e poging)":
             color='Survived', 
             barmode='group', 
             title='Overleving per geslacht (met percentages)',
-            text=survival_gender['Percentage'].apply(lambda x: f'{x:.1f}%')
+            text=survival_gender['Percentage'].apply(lambda x: f'{x:.1f}%'),
+            color_discrete_map=color_map
         )
-        # Maak de tekst groter
-        fig_gender.update_traces(textfont_size=14)
+        fig_gender.update_traces(textfont_size=20)
         st.plotly_chart(fig_gender, use_container_width=True)
 
         # Survival by Pclass with percentages on bars
@@ -372,41 +374,27 @@ elif pagina == "Titanic case verbetering (2e poging)":
             color='Survived', 
             barmode='group', 
             title='Overleving per Pclass (met percentages)',
-            text=survival_pclass['Percentage'].apply(lambda x: f'{x:.1f}%')
+            text=survival_pclass['Percentage'].apply(lambda x: f'{x:.1f}%'),
+            color_discrete_map=color_map
         )
-        # Maak de tekst groter
-        fig_pclass.update_traces(textfont_size=14)
+        fig_pclass.update_traces(textfont_size=20)
         st.plotly_chart(fig_pclass, use_container_width=True)
 
-        # NIEUW: KDE plot voor leeftijdsverdeling
+        # KDE plot voor leeftijdsverdeling
         st.subheader("Leeftijdsverdeling: Overlevenden vs. Niet-overlevenden (KDE)")
-        
-        # Data voorbereiden
         age_survived = df_cleaned[df_cleaned['Survived'] == 1]['Age'].dropna()
         age_not_survived = df_cleaned[df_cleaned['Survived'] == 0]['Age'].dropna()
-        
-        # Creëer de KDE
         kde_survived = gaussian_kde(age_survived)
         kde_not_survived = gaussian_kde(age_not_survived)
-        
-        # Maak een range voor de x-as
         age_range = np.linspace(df_cleaned['Age'].min(), df_cleaned['Age'].max(), 500)
         
-        # Maak de figuur
         fig_age_kde = go.Figure()
-        fig_age_kde.add_trace(go.Scatter(
-            x=age_range, y=kde_survived(age_range), mode='lines', name='Overleefd', line=dict(color='green')
-        ))
-        fig_age_kde.add_trace(go.Scatter(
-            x=age_range, y=kde_not_survived(age_range), mode='lines', name='Niet overleefd', line=dict(color='red')
-        ))
-        fig_age_kde.update_layout(
-            title="Dichtheid van leeftijden: Overlevenden vs. Niet-overlevenden",
-            xaxis_title="Leeftijd", yaxis_title="Dichtheid"
-        )
+        fig_age_kde.add_trace(go.Scatter(x=age_range, y=kde_survived(age_range), mode='lines', name='Overleefd', line=dict(color='green')))
+        fig_age_kde.add_trace(go.Scatter(x=age_range, y=kde_not_survived(age_range), mode='lines', name='Niet overleefd', line=dict(color='red')))
+        fig_age_kde.update_layout(title="Dichtheid van leeftijden: Overlevenden vs. Niet-overlevenden", xaxis_title="Leeftijd", yaxis_title="Dichtheid")
         st.plotly_chart(fig_age_kde, use_container_width=True)
 
-        # NIEUW: Overlevingskans per prijscategorie en geslacht
+        # Overlevingskans per prijscategorie en geslacht
         st.subheader("Heeft de ticketprijs de overlevingskans beïnvloed?")
         
         st.write("Verdeling van de ticketprijzen")
@@ -414,37 +402,40 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.plotly_chart(fig_fare_dist, use_container_width=True)
 
         st.write("Overlevingskans per prijscategorie en geslacht")
-        # Maak bins van 1000 breed
         max_fare = int(df_cleaned['Fare'].max())
         bins = np.arange(0, max_fare + 1000, 1000)
-        labels = [f'{i}-{i+1000-1}' for i in bins[:-1]]
+        # Labels zijn nu gedeeld door 10
+        labels = [f'{int(i/10)}-{int((i+1000)/10)}' for i in bins[:-1]]
         
-        df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False)
+        df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False, include_lowest=True)
 
-        # Groepeer op prijscategorie en geslacht
         fare_gender_survival = df_cleaned.groupby(['FareBin', 'Sex'], observed=False)['Survived'].mean().reset_index()
         fare_gender_survival['Sex'] = fare_gender_survival['Sex'].map({'male': 'Man', 'female': 'Vrouw'})
         
         fig_fare_gender = px.bar(
-            fare_gender_survival,
-            x='FareBin',
-            y='Survived',
-            color='Sex',
-            barmode='group',
-            title='Overlevingskans per Prijscategorie en Geslacht'
+            fare_gender_survival, x='FareBin', y='Survived', color='Sex',
+            barmode='group', title='Overlevingskans per Prijscategorie en Geslacht'
         )
         fig_fare_gender.update_yaxes(title="Overlevingskans", tickformat=".0%")
-        fig_fare_gender.update_xaxes(title="Ticketprijs (€)")
+        fig_fare_gender.update_xaxes(title="Ticketprijs (bedragen / 10)")
         st.plotly_chart(fig_fare_gender, use_container_width=True)
 
+        # NIEUW: Scatterplot van Fare vs Age
+        st.subheader("Relatie tussen Leeftijd, Ticketprijs en Overleving")
+        # Zorg ervoor dat de 'Overlevingsstatus' kolom bestaat
+        if 'Overlevingsstatus' not in df_cleaned.columns:
+            df_cleaned['Overlevingsstatus'] = df_cleaned['Survived'].map({1: 'Overleefd', 0: 'Niet overleefd'})
 
-        # LIJNGRAFIEK IS VERWIJDERD
-        st.subheader("Belangrijke observaties")
-        st.markdown("""
-        - Ongeacht het geslacht overleefden alle passagiers met een ticketprijs van meer dan $500.
-        - Alle mannelijke passagiers die tussen de $200 en $300 betaalden, zijn overleden
-        - Alle vrouwelijke passagiers die tussen de $200 en $300 betaalden, hebben het overleefd
-        """)
+        fig_scatter = px.scatter(
+            df_cleaned,
+            x="Fare",
+            y="Age",
+            color="Overlevingsstatus",
+            title="Relatie tussen Leeftijd en Ticketprijs",
+            labels={"Fare": "Ticketprijs", "Age": "Leeftijd"},
+            color_discrete_map=color_map
+        )
+        st.plotly_chart(fig_scatter, use_container_width=True)
 
         # Embarked location and survival chance
         st.subheader("Vergelijking van opstapplaats en overlevingskans")
@@ -502,6 +493,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
