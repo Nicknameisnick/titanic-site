@@ -252,6 +252,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
   
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
+        max_fare = int(df_cleaned['Fare'].max())
+        bins = np.arange(0, max_fare + 1000, 1000)
         labels = [f'{int(i/10)}-{int((i+1000)/10)}' for i in bins[:-1]]
         
 
@@ -402,8 +404,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         st.plotly_chart(fig_fare_dist, use_container_width=True)
 
         st.write("Overlevingskans per prijscategorie en geslacht")
-        max_fare = int(df_cleaned['Fare'].max())
-        bins = np.arange(0, max_fare + 1000, 1000)
+        
         # Labels zijn nu gedeeld door 10
         
         df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False, include_lowest=True)
@@ -570,6 +571,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
