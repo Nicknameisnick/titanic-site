@@ -186,6 +186,7 @@ elif pagina == "Titanic case 1e poging":
     ### Punten:
     - **ML-model:** Een ML model zou fijn geweest zijn.
     - **Scatterplot:** Er moet een scatterplot in voor een uitgebreidere visualisatie.
+    - **Bronnen:** Er moeten bronnen weergeven worden
     """)
 
 
@@ -396,6 +397,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab5:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
