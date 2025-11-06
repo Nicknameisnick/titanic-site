@@ -437,7 +437,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             y="Age",
             color="Overlevingsstatus",
             title="Relatie tussen Leeftijd en Ticketprijs",
-            labels={"Fare":'Ticket prijs in engelse ponden'), "Age": "Leeftijd"},
+            labels={"Fare":'Ticket prijs in engelse ponden', "Age": "Leeftijd"},
             color_discrete_map=color_map
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
@@ -576,6 +576,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
