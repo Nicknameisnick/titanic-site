@@ -249,12 +249,11 @@ elif pagina == "Titanic case verbetering (2e poging)":
         # Voer de code uit om missende waarden op te vullen
         df_cleaned['Age'].fillna(df_cleaned['Age'].median(), inplace=True)
         df_cleaned['Fare'].fillna(df_cleaned['Fare'].median(), inplace=True)
+        df_cleaned['Fare'] = df_cleaned['Fare']/10
 
   
         plot_missing_data_heatmap(df_cleaned, "Heatmap van missende data (Na opschoning)")
-        max_fare = int(df_cleaned['Fare'].max())
-        bins = np.arange(0, max_fare + 1000, 1000)
-        labels = [f'{int(i/10)}-{int((i+1000)/10)}' for i in bins[:-1]]
+       
         
 
         # --- NIEUWE SECTIE VOOR LEEFTIJD ---
@@ -289,7 +288,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
         with col3:
             st.write("**Voor de correctie:**")
             fig_fare_before = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Origineel)')
-            st.plotly_chart(fig_fare_before, use_container_width=True, labels=labels)
+            st.plotly_chart(fig_fare_before, use_container_width=True)
             
         with col4:
             st.write("**Na de correctie:**")
@@ -299,7 +298,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
             df_cleaned.loc[df_cleaned['Fare'] > 8700, 'Fare'] = fare_median
 
             fig_fare_after = px.box(df_cleaned, y='Fare', title='Ticketprijsverdeling (Gecorrigeerd)')
-            st.plotly_chart(fig_fare_after, use_container_width=True, labels=labels)
+            st.plotly_chart(fig_fare_after, use_container_width=True)
 
 
         
@@ -405,9 +404,8 @@ elif pagina == "Titanic case verbetering (2e poging)":
 
         st.write("Overlevingskans per prijscategorie en geslacht")
         
-        # Labels zijn nu gedeeld door 10
         
-        df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins, labels=labels, right=False, include_lowest=True)
+        df_cleaned['FareBin'] = pd.cut(df_cleaned['Fare'], bins=bins,  right=False, include_lowest=True)
 
         fare_gender_survival = df_cleaned.groupby(['FareBin', 'Sex'], observed=False)['Survived'].mean().reset_index()
         fare_gender_survival['Sex'] = fare_gender_survival['Sex'].map({'male': 'Man', 'female': 'Vrouw'})
@@ -571,6 +569,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
