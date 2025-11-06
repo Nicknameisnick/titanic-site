@@ -19,7 +19,7 @@ import plotly.graph_objects as go
 import streamlit as st
 import pydeck as pdk
 import time
-
+from scipy.stats import gaussian_kde
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
 
 st.sidebar.title("🚢 Titanic Navigatie")
@@ -469,6 +469,7 @@ elif pagina == "Titanic case verbetering (2e poging)":
     with tab4:
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
+
 
 
 
