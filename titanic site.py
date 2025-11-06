@@ -495,6 +495,7 @@ data = clean("train.csv")
 
 y = data["Survived"]         # target
 x = data.drop("Survived", axis=1)  # features
+
 param_grid = {
     'n_estimators': [300],
     'max_depth': [None],
@@ -512,6 +513,7 @@ param_grid = {
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
