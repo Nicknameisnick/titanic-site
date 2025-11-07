@@ -20,6 +20,7 @@ import streamlit as st
 import pydeck as pdk
 import time
 from scipy.stats import gaussian_kde
+from scipy import stats
 st.set_page_config(page_title="Titanic Dashboard 🚢", layout="wide")
 
 st.sidebar.title("🚢 Titanic Navigatie")
@@ -596,6 +597,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
