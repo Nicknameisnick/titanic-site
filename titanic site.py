@@ -598,6 +598,10 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
         st.write("""
+        Het resultaat van de tweede poging kwam uit op 77,5% accuraatheid
+        """)
+        st.markdown("---")
+        st.write("""
     - Een Random Forest kijkt niet alleen naar de simpele regel “vrouwen en kinderen eerst”,
     maar leert patronen over veel meer variabelen, zoals:
         - Passagiersklasse
@@ -613,6 +617,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
     
     - Dus ook al is de nauwkeurigheid iets lager, het model begrijpt de data beter.
         """)
+
 
 
 
