@@ -597,8 +597,22 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
-
-
+        st.write("""
+    - Een Random Forest kijkt niet alleen naar de simpele regel “vrouwen en kinderen eerst”,
+    maar leert patronen over veel meer variabelen, zoals:
+        - Passagiersklasse
+        - Leeftijd, familie aan boord
+        - Ticketprijs
+        - Haven van vertrek
+    
+    - Dat betekent dat het model:
+    
+        - Beter kan omgaan met complexere situaties,
+        - Minder overfit op een paar regels,
+        - Meer robuust is voor andere datasets.
+    
+    - Dus ook al is de nauwkeurigheid iets lager, het model begrijpt de data beter.
+        """)
 
 
 
