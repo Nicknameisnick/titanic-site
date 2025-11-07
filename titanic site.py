@@ -590,7 +590,6 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         """)
         st.write("""
         - Preprocess testdata op dezelfde manier als train
-        - Maak voorspellingen
         - Exporteer als CSV voor Kaggle/competitie
         """)
     with tab4:
@@ -617,6 +616,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
     
     - Dus ook al is de nauwkeurigheid iets lager, het model begrijpt de data beter.
         """)
+
 
 
 
