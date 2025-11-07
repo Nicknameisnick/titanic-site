@@ -163,9 +163,6 @@ elif pagina == "Titanic case 1e poging":
     st.write("""
     Bij de eerste poging is EDA toegepast zonder ML, hier zitten echter een aantal beperkingen aan:
     - Interactie tussen features wordt moeilijk zichtbaar. 
-        - Bijvoorbeeld: Mannen in 1e klas hebben een hogere overlevingskans dan mannen in 3e klas.
-        - Eenvoudige grafieken of gemiddelden missen zulke combinaties.
-    - Niet-lineaire patronen
         - Overleving kan afhangen van een combinatie van leeftijd, klasse, en geslacht.
         - EDA kan dit vaak niet goed vatten zonder uitgebreide, complexe plots.
     - Geen automatische gewichten
@@ -616,6 +613,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
     
     - Dus ook al is de nauwkeurigheid iets lager, het model begrijpt de data beter.
         """)
+
 
 
 
