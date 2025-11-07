@@ -431,16 +431,36 @@ elif pagina == "Titanic case verbetering (2e poging)":
         if 'Overlevingsstatus' not in df_cleaned.columns:
             df_cleaned['Overlevingsstatus'] = df_cleaned['Survived'].map({1: 'Overleefd', 0: 'Niet overleefd'})
 
+        temp_df = df_cleaned[['Fare', 'Age']].dropna()
+        slope, intercept, r_value, p_value, std_err = stats.linregress(temp_df['Fare'], temp_df['Age'])
+        
+        # STAP 2: Maak de scatterplot en voeg de regressielijn toe
         fig_scatter = px.scatter(
             df_cleaned,
             x="Fare",
             y="Age",
             color="Overlevingsstatus",
-            title="Relatie tussen Leeftijd en Ticketprijs",
-            labels={"Fare":'Ticket prijs in engelse ponden', "Age": "Leeftijd"},
-            color_discrete_map=color_map
+            title="Relatie tussen Leeftijd en Ticketprijs met Regressielijn",
+            labels={"Fare": "Ticketprijs", "Age": "Leeftijd"},
+            color_discrete_map=color_map,
+            trendline="ols",  # Voegt een Ordinary Least Squares regressielijn toe
+            trendline_color_override="blue" # Maak de lijn duidelijk zichtbaar
         )
+        
         st.plotly_chart(fig_scatter, use_container_width=True)
+        
+        # STAP 3: Toon de berekende R- en p-waarden onder de grafiek
+        st.markdown(f"""
+        **Statistische Analyse:**
+        - **Correlatiecoëfficiënt (r-waarde):** `{r_value:.4f}`
+        - **P-waarde:** `{p_value:.4f}`
+        """)
+
+        # Voeg een interpretatie toe
+        if p_value < 0.05:
+            st.success("De p-waarde is kleiner dan 0.05, wat suggereert dat er een statistisch significante (maar mogelijk zwakke) correlatie is tussen ticketprijs en leeftijd.")
+        else:
+            st.warning("De p-waarde is groter dan 0.05, wat suggereert dat er geen statistisch significante lineaire correlatie is tussen ticketprijs en leeftijd.")
 
         # Embarked location and survival chance
         st.subheader("Vergelijking van opstapplaats en overlevingskans")
@@ -576,6 +596,7 @@ submission.to_csv("Prediction Titanic.csv", index=False)
         st.header("Conclusies en eindscore")
         st.write("Conclusies en de eindscore van het model.")
         st.image("submission 2e poging.png")
+
 
 
 
